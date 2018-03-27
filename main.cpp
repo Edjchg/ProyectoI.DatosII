@@ -1,9 +1,9 @@
 
 #include <gtk/gtk.h>
-#include <iostream>
+
 #include <cstdlib>
 
-
+#include "parser.h"
 
 #include <iostream>
 #include<string.h>
@@ -17,7 +17,7 @@
 
 using namespace std;
 
-using namespace std;
+
 
 
 
@@ -30,6 +30,9 @@ static  void button_clicked(GtkWidget*widget, gpointer data){
 }
 
 int main(int argc, char* argv[]) {
+
+    parser parse;
+    parse.readfile();
 
 
 
@@ -67,6 +70,7 @@ int main(int argc, char* argv[]) {
 
     recv(client, buffer,  bufsize, 0);
 
+
     cout<< "Conexión confirmada..."<< endl;
     cout <<"Ingrese # si quiere terminar la conexión" << endl;
 
@@ -74,6 +78,8 @@ int main(int argc, char* argv[]) {
         cout<< "Cliente: ";
         do{
             cin >> buffer;
+
+
             send (client, buffer, bufsize, 0);
             if(* buffer == '#'){
                 send (client, buffer, bufsize, 0);
@@ -96,6 +102,7 @@ int main(int argc, char* argv[]) {
 
     cout<< "Conexión terminada"<< endl;
     close(client);
+
 
     /*
      * Hasta aqui es el código necesario para el cliente.
