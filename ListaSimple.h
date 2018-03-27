@@ -52,7 +52,7 @@ ListaSimple<TIPONODO>::~ListaSimple() {
 
         while (actualPtr != 0){
             tempPtr = actualPtr;
-            cout << tempPtr -> datos << "\n";
+            cout << tempPtr -> valor << "\n";
             actualPtr = actualPtr -> siguientePtr;
             delete tempPtr;
         }
@@ -269,7 +269,7 @@ void ListaSimple <TIPONODO>::imprimir() const {
     NodoSimple<TIPONODO> *tempPtr = primeroPtr;
 
     while (tempPtr != nullptr){
-        cout << tempPtr->datos << " ";
+        cout << tempPtr->valor << " ";
         tempPtr = tempPtr->siguientePtr;
 
     }
