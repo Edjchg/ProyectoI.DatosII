@@ -12,49 +12,30 @@ void funcion_hi ( GtkWidget *widget,
     }
 }
 
-
-
 int main( int   argc,
            char *argv[] ) {
 
     // GtkWidget es el tipo utilizado para widgets
     GtkWidget *window, *fixed, *btnRun, *table, *lblRam, *btnClear,
-<<<<<<< HEAD
                 *lblLog, *txtBar, *lbl, *box;
-=======
-            *lblLog, *txtBar;
-    GtkEntryBuffer * txt;
-
->>>>>>> 44b6d3381ecf1f0ac16907af0150d84deb3c0f2a
     // Inicializa GTK
-    gtk_init(&argc, &argv);
+    gtk_init (&argc, &argv);
 
     // Crea una ventana
-    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
-<<<<<<< HEAD
     txtBar = gtk_text_view_new();
     gtk_text_view_set_indent(GTK_TEXT_VIEW(txtBar), 100);
     fixed = gtk_fixed_new ();
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_window_set_title (GTK_WINDOW (window), "C! - IDE");
-=======
-    //txtBar = gtk_entry_new();
-
-    //txtBar = gtk_text_view_new();
-    txt = gtk_entry_buffer_new("hola", 4);
-
-    gtk_text_view_set_indent(GTK_TEXT_VIEW(txtBar), 100);
-
-    gtk_window_set_title(GTK_WINDOW (window), "C! - IDE");
->>>>>>> 44b6d3381ecf1f0ac16907af0150d84deb3c0f2a
     table = gtk_grid_new();
     gtk_grid_insert_column(GTK_GRID(table), 0);
     gtk_grid_insert_row(GTK_GRID(table), 0);
     // Conecta el evento "destroy" a un manejador de señales
-    g_signal_connect (G_OBJECT(window), "destroy",
-                      G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect (G_OBJECT (window), "destroy",
+                     G_CALLBACK (gtk_main_quit), NULL);
 
     gint curr_row = 0;
     gint curr_col = 0;
@@ -77,27 +58,15 @@ int main( int   argc,
     gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
 
     // Crea un Contenedor Fixed
-<<<<<<< HEAD
     gtk_container_add (GTK_CONTAINER (window), fixed);
-=======
-    fixed = gtk_fixed_new();
-    gtk_container_add(GTK_CONTAINER (window), fixed);
->>>>>>> 44b6d3381ecf1f0ac16907af0150d84deb3c0f2a
     //gtk_widget_show (fixed);
     btnRun = gtk_toggle_button_new_with_label("RUN");
     btnClear = gtk_toggle_button_new_with_label("Clear");
     g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
     g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
     gtk_fixed_put(GTK_FIXED(fixed), btnRun, 0, 0);
-<<<<<<< HEAD
     gtk_fixed_put(GTK_FIXED(fixed),txtBar, 50, 50 );
     gtk_widget_set_size_request(txtBar, 650, 350);
-=======
-    //gtk_fixed_put(GTK_FIXED(fixed), txtBar, 50, 50);
-    //gtk_widget_set_size_request(txtBar, 650, 350);
-
-
->>>>>>> 44b6d3381ecf1f0ac16907af0150d84deb3c0f2a
 
     gtk_fixed_put(GTK_FIXED(fixed), lblRam, 800, 0);
     gtk_fixed_put(GTK_FIXED(fixed), lblLog, 0, 480);
@@ -110,12 +79,9 @@ int main( int   argc,
     //gtk_widget_show(window);
     //gtk_widget_show(lblRam);
 
-    gtk_main();
+    gtk_main ();
     return 0;
-
-
-}
-
+ }
 /*
 int main(int argc, char*argv[]) {
 
