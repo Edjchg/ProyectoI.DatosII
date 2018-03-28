@@ -29,16 +29,20 @@ static  void button_clicked(GtkWidget*widget, gpointer data){
 
 }
 
+/*
+
 int main(int argc, char* argv[]) {
 
     parser parse;
     parse.readfile();
 
-
+*/
 
     /*
      * Cliente del servidor.
      */
+
+    /*
     int client, server;
     int portNum = 1500;
     bool isExit = false;
@@ -58,10 +62,14 @@ int main(int argc, char* argv[]) {
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(portNum);
 
+     */
+
     /*
      * Conectando al socket del servidor
      *
      */
+
+/*
 
     if(connect(client, ((struct sockaddr*)&serverAddr), sizeof(serverAddr)) == 0){
         cout << "Conectando con el servidor..."<< endl;
@@ -103,6 +111,7 @@ int main(int argc, char* argv[]) {
     cout<< "Conexión terminada"<< endl;
     close(client);
 
+*/
 
     /*
      * Hasta aqui es el código necesario para el cliente.
@@ -158,10 +167,10 @@ int main(int argc, char* argv[]) {
 
      */
 
-    return  0;
+   // return  0;
 
 
 
 
 
-}
+//}

@@ -16,7 +16,7 @@ class SingletonMemory {
     public:
         static SingletonMemory& Instancia();
 
-        SingletonMemory(const SingletonMemory&) = delete;
+        SingletonMemory(const SingletonMemory&) =             delete;
 
         SingletonMemory& operator = (const SingletonMemory&)= delete;
 

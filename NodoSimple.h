@@ -18,11 +18,11 @@ class NodoSimple {
 public:
 
     NodoSimple (const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &);
-    TIPONODO obtenerDatos() const;
-    TIPONODO obtenerTipo() const;
-    TIPONODO obtenerEspacioMemoria() const;
+    TIPONODO obtenerDatos()                               const;
+    TIPONODO obtenerTipo()                                const;
+    TIPONODO obtenerEspacioMemoria()                      const;
     TIPONODO obtenerCantidadReferencias(const TIPONODO &) const;
-    TIPONODO obtenerEtiqueta(const TIPONODO &) const ;
+    TIPONODO obtenerEtiqueta(const TIPONODO &)            const ;
     TIPONODO setDatos(const TIPONODO &);
     TIPONODO setTipo(const TIPONODO &);
     TIPONODO setEspacio(const TIPONODO &);
