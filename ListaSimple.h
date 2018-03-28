@@ -19,8 +19,8 @@ class ListaSimple {
 public:
     ListaSimple();
     ~ListaSimple();
-    void instertarFrente(const TIPONODO &);
-    void insertarFinal(const TIPONODO &);
+    void instertarFrente(const TIPONODO &, const TIPONODO &, const TIPONODO &, const TIPONODO & ,const TIPONODO &);
+    void insertarFinal(const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO & );
     bool eliminarFrente();
     bool eliminarFinal();
     bool eliminarPosicion(const TIPONODO &);
@@ -32,7 +32,7 @@ public:
 private:
     NodoSimple <TIPONODO> *primeroPtr;
     NodoSimple <TIPONODO> *ultimoPtr;
-    NodoSimple <TIPONODO> *obtenerNuevoNodo(const TIPONODO &);
+    NodoSimple <TIPONODO> *obtenerNuevoNodo(const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &);
 
 };
 //Constructor
@@ -64,9 +64,10 @@ ListaSimple<TIPONODO>::~ListaSimple() {
  * Método que inserta un NodoSimple al inicio de la ListaSimple.
  */
 template <typename TIPONODO>
-void ListaSimple<TIPONODO>::instertarFrente(const TIPONODO &valor) {
+void ListaSimple<TIPONODO>::instertarFrente(const TIPONODO &tipo,const TIPONODO &etiqueta, const TIPONODO &valor,
+                                            const TIPONODO &referencia, const TIPONODO &espacio) {
 
-    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo( valor );
+    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo( tipo ,etiqueta, valor, referencia, espacio );
     if (estaVacia()){
         primeroPtr = ultimoPtr = nuevoPtr;
 
@@ -81,8 +82,9 @@ void ListaSimple<TIPONODO>::instertarFrente(const TIPONODO &valor) {
  * Método que inserta un NodoSimple al final de la ListaSimple.
  */
 template <typename TIPONODO>
-void ListaSimple<TIPONODO>::insertarFinal(const TIPONODO &valor) {
-    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo( valor );
+void ListaSimple<TIPONODO>::insertarFinal(const TIPONODO &tipo, const TIPONODO &etiqueta, const TIPONODO &valor,
+                                          const TIPONODO &referencia, const TIPONODO &espacio ) {
+    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo(tipo,etiqueta, valor,referencia,espacio );
     if (estaVacia()){
         primeroPtr = ultimoPtr = nuevoPtr;
 
@@ -97,11 +99,13 @@ void ListaSimple<TIPONODO>::insertarFinal(const TIPONODO &valor) {
 /*
  * Método que inserta un NodoSimple en la posición deseada en la ListaSimple.
  */
+
+/*
 template <typename TIPONODO>
-void ListaSimple<TIPONODO>::insertarPosicion(const TIPONODO & posicion, const TIPONODO & valor ) {
+void ListaSimple<TIPONODO>::insertarPosicion(const TIPONODO & posicion, const TIPONODO &valor ) {
     cout<< "Dentro de insertar" << endl;
 
-    NodoSimple<TIPONODO> *nuevoNodoPtr = obtenerNuevoNodo( valor );
+    NodoSimple<TIPONODO> *nuevoNodoPtr = obtenerNuevoNodo( tipo, etiqueta,valor, referencia, espacio );
     NodoSimple<TIPONODO> *tempPtr = primeroPtr;
     NodoSimple<TIPONODO> *temp2Ptr = primeroPtr->siguientePtr;
 
@@ -130,6 +134,7 @@ void ListaSimple<TIPONODO>::insertarPosicion(const TIPONODO & posicion, const TI
 
     }
 }
+ */
 
 /*
  * Método que elimina un NodoSimple al inicio de la ListaSimple.
@@ -231,8 +236,9 @@ bool ListaSimple<TIPONODO>::estaVacia() const {
 }
 
 template <typename TIPONODO>
-NodoSimple<TIPONODO> *ListaSimple<TIPONODO>::obtenerNuevoNodo(const TIPONODO &valor) {
-    return new NodoSimple<TIPONODO>(valor);
+NodoSimple<TIPONODO> *ListaSimple<TIPONODO>::obtenerNuevoNodo(const TIPONODO &tipo,const TIPONODO &etiqueta,
+                                                              const TIPONODO &valor,const TIPONODO &referencia,const TIPONODO &espacio) {
+    return new NodoSimple<TIPONODO>(tipo, etiqueta,valor, referencia, espacio);
 
 }
 /*

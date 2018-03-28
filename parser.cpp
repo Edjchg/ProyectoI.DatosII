@@ -5,9 +5,10 @@
 #include "parser.h"
 #include <fstream>
 #include <iostream>
-
+#include "ListaSimple.h"
 using namespace std;
 string file = "/Users/edgarchaves/Desktop/C!.txt";
+
 
 void parser::readfile() {
     int MAXLINE = 256;
@@ -21,10 +22,15 @@ void parser::readfile() {
 
     while(infile){
         getline(infile,oneline);
-        string palabra;
+        string tipo;
+        string etiqueta;
+        string valor;
+        int referencia;
+
         int veces;
         for (int posicion = 0; posicion < sizeof(oneline); posicion++){
-            if (oneline[posicion] != ' '|| oneline[posicion] != '+' || oneline[posicion]!= ' =' ||  oneline[posicion] != ' *' ){
+            if (oneline[posicion] != ' '|| oneline[posicion] != '+' || oneline[posicion]!= ' =' ||  oneline[posicion] != ' *'
+                    and veces == 1){
                 palabra += oneline[posicion];
             }else {
                 veces += 1;

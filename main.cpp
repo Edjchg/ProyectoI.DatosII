@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
     /*
      * Hasta aqui es el código necesario para el cliente.
      */
-    return 0;
+   // return 0;
     /*
     int *ptr = (int*)malloc(5*sizeof(int));
     ptr[0] = 10;
@@ -134,14 +134,17 @@ int main(int argc, char* argv[]) {
 
 */
 
+    /*
+    gtk_init(&argc,&argv);
 
-   /* gtk_init(&argc,&argv);
-
-    GtkWidget*window,*button;
+    GtkWidget*window,*button, *table;
 
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
     button = gtk_button_new_with_label("Hola");
+
+
+
 
     g_signal_connect(window, "delete_event", G_CALLBACK(gtk_main_quit),NULL);
 
@@ -151,7 +154,9 @@ int main(int argc, char* argv[]) {
 
     gtk_widget_show_all(window);
 
-    gtk_main();*/
+    gtk_main();
+
+     */
 
     return  0;
 

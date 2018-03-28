@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.cpp parser.cpp parser.h ListaSimple.h NodoSimple.h)
+set(SOURCE_FILES main.cpp parser.cpp parser.h ListaSimple.h NodoSimple.h SingletonMemory.cpp SingletonMemory.h)
 
 
 
