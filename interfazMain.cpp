@@ -24,7 +24,11 @@ int main( int   argc,
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
-    txtBar = gtk_entry_new();
+    //txtBar = gtk_entry_new();
+
+    txtBar = gtk_text_view_new();
+    gtk_text_view_set_indent(GTK_TEXT_VIEW(txtBar), 100);
+
     gtk_window_set_title (GTK_WINDOW (window), "C! - IDE");
     table = gtk_grid_new();
     gtk_grid_insert_column(GTK_GRID(table), 0);
