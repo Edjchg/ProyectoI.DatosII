@@ -21,13 +21,6 @@ using namespace std;
 
 
 
-static  void button_clicked(GtkWidget*widget, gpointer data){
-
-    g_print("Boton presionado \n");
-
-
-
-}
 
 /*
 
