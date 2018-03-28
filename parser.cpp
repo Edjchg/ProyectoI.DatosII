@@ -11,6 +11,11 @@ string file = "/Users/edgarchaves/Desktop/C!.txt";
 
 
 void parser::readfile() {
+
+
+
+
+    /*
     int MAXLINE = 256;
     ifstream infile;
     infile.open(file);
@@ -28,6 +33,7 @@ void parser::readfile() {
         int    referencia;
 
         int veces;
+        */
         /*
         for (int posicion = 0; posicion < sizeof(oneline); posicion++){
             if (oneline[posicion] != ' '|| oneline[posicion] != '+' || oneline[posicion]!= ' =' ||  oneline[posicion] != ' *'
@@ -51,10 +57,10 @@ void parser::readfile() {
         }
          */
 
-        cout<<oneline<< endl;
+        //cout<<oneline<< endl;
 
-    }
-    infile.close();
+    //}
+    //infile.close();
 
 }
 

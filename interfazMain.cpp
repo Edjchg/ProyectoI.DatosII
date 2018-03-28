@@ -11,46 +11,55 @@ void funcion_hi ( GtkWidget *widget,
     }
 }
 
+
+
 int main( int   argc,
            char *argv[] ) {
 
     // GtkWidget es el tipo utilizado para widgets
     GtkWidget *window, *fixed, *btnRun, *table, *lblRam, *btnClear,
-                *lblLog, *txtBar;
+            *lblLog, *txtBar;
+    GtkEntryBuffer * txt;
+
     // Inicializa GTK
-    gtk_init (&argc, &argv);
+    gtk_init(&argc, &argv);
 
     // Crea una ventana
-    window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
     //txtBar = gtk_entry_new();
 
-    txtBar = gtk_text_view_new();
+    //txtBar = gtk_text_view_new();
+    txt = gtk_entry_buffer_new("hola", 4);
+
     gtk_text_view_set_indent(GTK_TEXT_VIEW(txtBar), 100);
 
-    gtk_window_set_title (GTK_WINDOW (window), "C! - IDE");
+    gtk_window_set_title(GTK_WINDOW (window), "C! - IDE");
     table = gtk_grid_new();
     gtk_grid_insert_column(GTK_GRID(table), 0);
     gtk_grid_insert_row(GTK_GRID(table), 0);
     // Conecta el evento "destroy" a un manejador de señales
-    g_signal_connect (G_OBJECT (window), "destroy",
-                     G_CALLBACK (gtk_main_quit), NULL);
+    g_signal_connect (G_OBJECT(window), "destroy",
+                      G_CALLBACK(gtk_main_quit), NULL);
 
     // Establece la anchura del borde de la ventana.
     gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
 
     // Crea un Contenedor Fixed
-    fixed = gtk_fixed_new ();
-    gtk_container_add (GTK_CONTAINER (window), fixed);
+    fixed = gtk_fixed_new();
+    gtk_container_add(GTK_CONTAINER (window), fixed);
     //gtk_widget_show (fixed);
     btnRun = gtk_toggle_button_new_with_label("RUN");
     btnClear = gtk_toggle_button_new_with_label("Clear");
     g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
     g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
     gtk_fixed_put(GTK_FIXED(fixed), btnRun, 0, 0);
-    gtk_fixed_put(GTK_FIXED(fixed),txtBar, 50, 50 );
-    gtk_widget_set_size_request(txtBar, 650, 350);
+    //gtk_fixed_put(GTK_FIXED(fixed), txtBar, 50, 50);
+    //gtk_widget_set_size_request(txtBar, 650, 350);
+
+
+
     gtk_fixed_put(GTK_FIXED(fixed), lblRam, 800, 0);
     gtk_fixed_put(GTK_FIXED(fixed), lblLog, 0, 480);
     gtk_fixed_put(GTK_FIXED(fixed), btnClear, 500, 480);
@@ -58,9 +67,12 @@ int main( int   argc,
     //gtk_widget_show(window);
     //gtk_widget_show(lblRam);
 
-    gtk_main ();
+    gtk_main();
     return 0;
- }
+
+
+}
+
 /*
 int main(int argc, char*argv[]) {
 
