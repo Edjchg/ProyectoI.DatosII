@@ -14,13 +14,16 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <netdb.h>
+#include <thread>
+#include <pthread.h>
 
 using namespace std;
 
 void funcion_hi ( GtkWidget *widget,
           GtkWidget *fixed ) {
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))){
-        g_print("Activado\n");
+        //g_print("Activado\n");
+        cout<< "Hola *"<< endl;
     } else {
         g_print("Desactivado\n");
     }
@@ -34,8 +37,98 @@ static  void button_clicked(GtkWidget*widget, gpointer data){
 
 }
 
+void *cliente(){
+    /*
+     * Cliente del servidor.
+     */
+
+
+    int client, server;
+    int portNum = 1500;
+    bool isExit = false;
+    int bufsize = 1024;
+    char buffer[bufsize];
+    //char *ip = "127.0.0.1";
+    struct sockaddr_in serverAddr;
+    socklen_t size;
+
+    client = socket(AF_INET,SOCK_STREAM,  0);
+    if (client < 0){
+        cout << "Error creando el socket ..."<< endl;
+        exit(1);
+    }
+
+    cout <<"Socket de cliente creado ..." << endl;
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(portNum);
+
+
+
+    /*
+     * Conectando al socket del servidor
+     *
+     */
+
+
+
+    //if(connect(client, ((struct sockaddr*)&serverAddr), sizeof(serverAddr)) == 0){
+        cout << "Conectando con el servidor..."<< endl;
+
+    //}
+    connect(client, ((struct sockaddr*)&serverAddr), sizeof(serverAddr));
+    recv(client, buffer,  bufsize, 0);
+
+
+    cout<< "Conexión confirmada..."<< endl;
+    cout <<"Ingrese # si quiere terminar la conexión" << endl;
+
+    do{
+        cout<< "Cliente: ";
+        do{
+            cin >> buffer;
+
+
+            send (client, buffer, bufsize, 0);
+            if(* buffer == '#'){
+                send (client, buffer, bufsize, 0);
+                *buffer = '*';
+                isExit = true;
+
+            }
+        }while (*buffer != 42);
+        cout<< "Servidor:";
+        do{
+            recv(client, buffer,bufsize,0);
+            cout << buffer << "";
+            if(*buffer == '#'){
+                *buffer = '*';
+                isExit = true;
+            }
+        }while (*buffer != 42);
+        cout << endl;
+    }while(!isExit);
+
+    cout<< "Conexión terminada"<< endl;
+    close(client);
+
+
+
+    /*
+     * Hasta aqui es el código necesario para el cliente.
+     */
+
+}
+
+
 int main( int   argc,
            char *argv[] ) {
+
+    //cliente();
+
+    thread p(cliente);
+    p.detach();
+
+
 
     // GtkWidget es el tipo utilizado para widgets
     GtkWidget *window, *fixed, *btnRun, *table, *lblRam, *btnClear,
@@ -43,8 +136,14 @@ int main( int   argc,
     // Inicializa GTK
     gtk_init (&argc, &argv);
 
+
+
+
     // Crea una ventana
     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+
+
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
     txtBar = gtk_text_view_new();
@@ -102,92 +201,26 @@ int main( int   argc,
     //gtk_widget_show(lblRam);
 
     gtk_main ();
-    return 0;
+
+
+
+
+
+
+
+
+
+
 
 
     //parser parse;
     //parse.readfile();
 
 
-    /*
-     * Cliente del servidor.
-     */
-
-    /*
-    int client, server;
-    int portNum = 1500;
-    bool isExit = false;
-    int bufsize = 1024;
-    char buffer[bufsize];
-    //char *ip = "127.0.0.1";
-    struct sockaddr_in serverAddr;
-    socklen_t size;
-
-    client = socket(AF_INET,SOCK_STREAM,  0);
-    if (client < 0){
-        cout << "Error creando el socket ..."<< endl;
-        exit(1);
-    }
-
-    cout <<"Socket de cliente creado ..." << endl;
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(portNum);
-
-     */
-
-    /*
-     * Conectando al socket del servidor
-     *
-     */
-
-/*
-
-    if(connect(client, ((struct sockaddr*)&serverAddr), sizeof(serverAddr)) == 0){
-        cout << "Conectando con el servidor..."<< endl;
-
-    }
-
-    recv(client, buffer,  bufsize, 0);
 
 
-    cout<< "Conexión confirmada..."<< endl;
-    cout <<"Ingrese # si quiere terminar la conexión" << endl;
-
-    do{
-        cout<< "Cliente: ";
-        do{
-            cin >> buffer;
-
-
-            send (client, buffer, bufsize, 0);
-            if(* buffer == '#'){
-                send (client, buffer, bufsize, 0);
-                *buffer = '*';
-                isExit = true;
-
-            }
-        }while (*buffer != 42);
-        cout<< "Servidor:";
-        do{
-            recv(client, buffer,bufsize,0);
-            cout << buffer << "";
-            if(*buffer == '#'){
-                *buffer = '*';
-                isExit = true;
-            }
-        }while (*buffer != 42);
-        cout << endl;
-    }while(!isExit);
-
-    cout<< "Conexión terminada"<< endl;
-    close(client);
-
-*/
-
-    /*
-     * Hasta aqui es el código necesario para el cliente.
-     */
     // return 0;
+
     /*
     int *ptr = (int*)malloc(5*sizeof(int));
     ptr[0] = 10;
@@ -238,10 +271,10 @@ int main( int   argc,
 
      */
 
-    // return  0;
 
 
 
+    return 0;
 
 
 

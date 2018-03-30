@@ -15,7 +15,7 @@ void parser::readfile() {
 
 
 
-    /*
+
     int MAXLINE = 256;
     ifstream infile;
     infile.open(file);
@@ -26,15 +26,16 @@ void parser::readfile() {
 
 
     while(infile){
-        getline(infile,oneline);
-        string tipo;
-        string etiqueta;
-        string valor;
-        int    referencia;
+        getline (infile,oneline);
+        string  tipo;
+        string  etiqueta;
+        string  valor;
+        string palabra;
+        int     referencia;
 
         int veces;
-        */
-        /*
+
+
         for (int posicion = 0; posicion < sizeof(oneline); posicion++){
             if (oneline[posicion] != ' '|| oneline[posicion] != '+' || oneline[posicion]!= ' =' ||  oneline[posicion] != ' *'
                     and veces == 1){
@@ -55,12 +56,12 @@ void parser::readfile() {
             }
 
         }
-         */
 
-        //cout<<oneline<< endl;
 
-    //}
-    //infile.close();
+        cout<<oneline<< endl;
+
+    }
+    infile.close();
 
 }
 
