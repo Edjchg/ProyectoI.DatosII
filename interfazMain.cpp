@@ -133,7 +133,8 @@ int main( int   argc,
 
     // GtkWidget es el tipo utilizado para widgets
     GtkWidget *window, *fixed, *btnRun, *table, *lblRam, *btnClear,
-            *lblLog, *txtBar, *lbl, *box, *btnObtText;
+            *lblLog, *txtBar, *lbl, *box, *btnObtText *lblShell,
+            *lblAppliText, *lblShellText;;
 
     // Inicializa GTK
     gtk_init(&argc, &argv);
@@ -143,6 +144,9 @@ int main( int   argc,
     gtk_window_set_title(GTK_WINDOW (window), "C! - IDE");
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
+    lblShell = gtk_label_new(">>");
+    lblShellText = gtk_label_new("HOLA");
+    lblAppliText = gtk_label_new("HOLA X2");
     txtBar = gtk_text_view_new();
     fixed = gtk_fixed_new();
     table = gtk_grid_new();
@@ -184,6 +188,9 @@ int main( int   argc,
     gtk_widget_set_size_request(txtBar, 650, 350);
     gtk_fixed_put(GTK_FIXED(fixed), lblRam, 800, 0);
     gtk_fixed_put(GTK_FIXED(fixed), lblLog, 0, 480);
+    gtk_fixed_put(GTK_FIXED(fixed), lblAppliText, 0, 500);
+    gtk_fixed_put(GTK_FIXED(fixed), lblShell, 0, 400);
+    gtk_fixed_put(GTK_FIXED(fixed), lblShellText, 40, 400);
     gtk_fixed_put(GTK_FIXED(fixed), btnClear, 500, 480);
     gtk_box_pack_start(GTK_BOX(box), table, false, false, 0);
     gtk_container_add(GTK_CONTAINER(window), box);
