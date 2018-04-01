@@ -19,8 +19,11 @@
 
 using namespace std;
 
+
+
 void funcion_hi ( GtkWidget *widget,
           GtkWidget *fixed ) {
+    int hola = 2;
     if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))){
         //g_print("Activado\n");
         cout<< "Hola *"<< endl;
@@ -30,11 +33,32 @@ void funcion_hi ( GtkWidget *widget,
 }
 
 char *getTextOfTextview(GtkWidget *widget, gpointer data) {
+
     GtkTextIter start, end;
+
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));
     gchar *text;
+
+
+
+    gint lineas = gtk_text_buffer_get_line_count (buffer);
+    cout<<"------Numero de lineas--------"<<endl;
+    cout <<lineas<<endl;
+
+
+
+
+
+
     gtk_text_buffer_get_bounds(buffer, &start, &end);
     text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+
+
+
+    parser parser1;
+    parser1.readfile(text);
+
+
     return text;
 }
 
@@ -131,10 +155,16 @@ int main( int   argc,
 
 
 
-    // GtkWidget es el tipo utilizado para widgets
-    GtkWidget *window, *fixed, *btnRun, *table, *lblRam, *btnClear,
-            *lblLog, *txtBar, *lbl, *box, *btnObtText *lblShell,
-            *lblAppliText, *lblShellText;;
+    // GtkWidget es el tipo utilizado para widget
+
+
+    GtkWidget *scrolledWindow, * window, *fixed, *btnRun, *table, *lblRam, *btnClear,
+            *lblLog, *txtBar, *lbl, *box, *btnObtText, *lblShell,
+            *lblAppliText, *lblShellText;
+
+    GtkTextIter iter;
+
+    GtkTextBuffer *buffer;
 
     // Inicializa GTK
     gtk_init(&argc, &argv);
@@ -142,6 +172,11 @@ int main( int   argc,
     // Creando componentes
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW (window), "C! - IDE");
+    gtk_window_set_default_size(GTK_WINDOW(window),220, 200 );
+
+    buffer = gtk_text_buffer_new (NULL);
+    gtk_text_buffer_get_iter_at_line (buffer, &iter,0);
+
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
     lblShell = gtk_label_new(">>");
@@ -151,7 +186,8 @@ int main( int   argc,
     fixed = gtk_fixed_new();
     table = gtk_grid_new();
     btnRun = gtk_toggle_button_new_with_label("RUN");
-    btnObtText = gtk_button_new_with_label("obtener");
+    btnObtText = gtk_button_new_with_label("Obtener");
+
     btnClear = gtk_toggle_button_new_with_label("Clear");
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -176,6 +212,10 @@ int main( int   argc,
     gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
 
 
+
+
+
+
     //colocando coordenadas y tamaño
     gtk_text_view_set_indent(GTK_TEXT_VIEW(txtBar), 100);
     gtk_grid_insert_column(GTK_GRID(table), 0);
@@ -196,6 +236,11 @@ int main( int   argc,
     gtk_container_add(GTK_CONTAINER(window), box);
     gtk_fixed_put(GTK_FIXED(fixed), box, 750, 50);
     gtk_widget_set_size_request(box, 200, 100);
+
+
+
+
+
 
     gtk_widget_show_all(window);
     gtk_main ();
