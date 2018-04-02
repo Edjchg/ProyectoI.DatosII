@@ -160,7 +160,7 @@ int main( int   argc,
 
     GtkWidget *scrolledWindow, * window, *fixed, *btnRun, *table, *lblRam, *btnClear,
             *lblLog, *txtBar, *lbl, *box, *btnObtText, *lblShell,
-            *lblAppliText, *lblShellText;
+            *lblAppliText, *lblShellText, *scrollWindows;
 
     GtkTextIter iter;
 
@@ -173,10 +173,12 @@ int main( int   argc,
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW (window), "C! - IDE");
     gtk_window_set_default_size(GTK_WINDOW(window),220, 200 );
-
     buffer = gtk_text_buffer_new (NULL);
     gtk_text_buffer_get_iter_at_line (buffer, &iter,0);
-
+    scrollWindows = gtk_scrolled_window_new(NULL, NULL);
+    gtk_container_set_border_width (GTK_CONTAINER (scrollWindows), 10);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrollWindows),
+                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
     lblShell = gtk_label_new(">>");
@@ -213,19 +215,17 @@ int main( int   argc,
 
 
 
-
-
-
     //colocando coordenadas y tamaño
     gtk_text_view_set_indent(GTK_TEXT_VIEW(txtBar), 100);
     gtk_grid_insert_column(GTK_GRID(table), 0);
     gtk_grid_insert_row(GTK_GRID(table), 0);
     gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
+    gtk_container_add(GTK_CONTAINER(scrollWindows), txtBar);
     gtk_container_add(GTK_CONTAINER (window), fixed);
     gtk_fixed_put(GTK_FIXED(fixed), btnRun, 0, 0);
     gtk_fixed_put(GTK_FIXED(fixed), btnObtText, 50, 0);
-    gtk_fixed_put(GTK_FIXED(fixed), txtBar, 50, 50);
-    gtk_widget_set_size_request(txtBar, 650, 350);
+    gtk_fixed_put(GTK_FIXED(fixed), scrollWindows, 50, 50);
+    gtk_widget_set_size_request(scrollWindows, 650, 350);
     gtk_fixed_put(GTK_FIXED(fixed), lblRam, 800, 0);
     gtk_fixed_put(GTK_FIXED(fixed), lblLog, 0, 480);
     gtk_fixed_put(GTK_FIXED(fixed), lblAppliText, 0, 500);
