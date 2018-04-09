@@ -1,11 +1,7 @@
 #include <iostream>
-
 #include <gtk/gtk.h>
-
 #include <cstdlib>
-
 #include "parser.h"
-
 #include<string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -30,6 +26,22 @@ void funcion_hi ( GtkWidget *widget,
     } else {
         g_print("Desactivado\n");
     }
+}
+
+GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3;
+gint columna = 0;
+gint fila = 0;
+
+void agregarFila(const char *memoria, const char *valor, const char *etiqueta, const char *conteo) {
+    lbl = gtk_label_new(memoria);
+    lbl1 = gtk_label_new(valor);
+    lbl2 = gtk_label_new(etiqueta);
+    lbl3 = gtk_label_new(conteo);
+    gtk_grid_attach(GTK_GRID(table), lbl, columna, fila , 1, 1);
+    gtk_grid_attach(GTK_GRID(table), lbl1, columna + 1, fila , 1, 1);
+    gtk_grid_attach(GTK_GRID(table), lbl2, columna + 2, fila , 1, 1);
+    gtk_grid_attach(GTK_GRID(table), lbl3, columna + 3, fila , 1, 1);
+    fila += 1;
 }
 
 char *getTextOfTextview(GtkWidget *widget, gpointer data) {
@@ -158,9 +170,11 @@ int main( int   argc,
     // GtkWidget es el tipo utilizado para widget
 
 
-    GtkWidget *scrolledWindow, * window, *fixed, *btnRun, *table, *lblRam, *btnClear,
+    GtkWidget *scrolledRam, * window, *fixed, *btnRun,*lblRam, *btnClear,
             *lblLog, *txtBar, *lbl, *box, *btnObtText, *lblShell,
             *lblAppliText, *lblShellText, *scrollWindows;
+
+
 
     GtkTextIter iter;
 
@@ -176,6 +190,7 @@ int main( int   argc,
     buffer = gtk_text_buffer_new (NULL);
     gtk_text_buffer_get_iter_at_line (buffer, &iter,0);
     scrollWindows = gtk_scrolled_window_new(NULL, NULL);
+    scrolledRam = gtk_scrolled_window_new(NULL, NULL);
     gtk_container_set_border_width (GTK_CONTAINER (scrollWindows), 10);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrollWindows),
                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
@@ -201,17 +216,17 @@ int main( int   argc,
     g_signal_connect(G_OBJECT(btnObtText), "clicked", G_CALLBACK(getTextOfTextview), txtBar);
 
 
-    gint curr_row = 0;
+    /*gint curr_row = 0;
     gint curr_col = 0;
-    for (gint i = 0; i < 20; i++) {
+    for (gint i = 0; i < 40; i++) {
         lbl = gtk_label_new(" HOLA \n");
         gtk_grid_attach(GTK_GRID(table), lbl, curr_row % 4, curr_col % 8, 1, 1);
         if (++curr_row % 4 == 0)
             curr_col++;
 
-    }
-    gtk_grid_set_column_homogeneous(GTK_GRID(table), true);
-    gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
+    }*/
+    //gtk_grid_set_column_homogeneous(GTK_GRID(table), true);
+    //gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
 
 
 
@@ -221,6 +236,7 @@ int main( int   argc,
     gtk_grid_insert_row(GTK_GRID(table), 0);
     gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
     gtk_container_add(GTK_CONTAINER(scrollWindows), txtBar);
+    gtk_container_add(GTK_CONTAINER(scrolledRam), box);
     gtk_container_add(GTK_CONTAINER (window), fixed);
     gtk_fixed_put(GTK_FIXED(fixed), btnRun, 0, 0);
     gtk_fixed_put(GTK_FIXED(fixed), btnObtText, 50, 0);
@@ -234,14 +250,14 @@ int main( int   argc,
     gtk_fixed_put(GTK_FIXED(fixed), btnClear, 500, 480);
     gtk_box_pack_start(GTK_BOX(box), table, false, false, 0);
     gtk_container_add(GTK_CONTAINER(window), box);
-    gtk_fixed_put(GTK_FIXED(fixed), box, 750, 50);
-    gtk_widget_set_size_request(box, 200, 100);
+    gtk_fixed_put(GTK_FIXED(fixed), scrolledRam, 750, 50);
+    gtk_widget_set_size_request(scrolledRam, 300, 300);
 
+    //EJEMPLO DE COMO AGREGAR UNA FILA
+    //agregarFila(memoria.c_str(), valor.c_str(), etiqueta.c_str(), conteo.c_str());
 
-
-
-
-
+    gtk_grid_set_column_homogeneous(GTK_GRID(table), true);
+    gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
     gtk_widget_show_all(window);
     gtk_main ();
 
