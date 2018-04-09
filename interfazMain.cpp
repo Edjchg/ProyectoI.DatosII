@@ -44,6 +44,10 @@ void agregarFila(const char *memoria, const char *valor, const char *etiqueta, c
     fila += 1;
 }
 
+void borrarAppliLog(GtkWidget *widget, gpointer data) {
+    gtk_label_set_text(GTK_LABEL(data), "");
+
+}
 char *getTextOfTextview(GtkWidget *widget, gpointer data) {
 
     GtkTextIter start, end;
@@ -212,7 +216,7 @@ int main( int   argc,
     g_signal_connect (G_OBJECT(window), "destroy",
                       G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
-    g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
+    g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(borrarAppliLog), lblAppliText);
     g_signal_connect(G_OBJECT(btnObtText), "clicked", G_CALLBACK(getTextOfTextview), txtBar);
 
 
