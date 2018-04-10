@@ -12,6 +12,7 @@
 #include <netdb.h>
 #include <thread>
 #include <pthread.h>
+#include <gtksourceview/gtksource.h>
 
 using namespace std;
 
@@ -178,8 +179,6 @@ int main( int   argc,
             *lblLog, *txtBar, *lbl, *box, *btnObtText, *lblShell,
             *lblAppliText, *lblShellText, *scrollWindows;
 
-
-
     GtkTextIter iter;
 
     GtkTextBuffer *buffer;
@@ -203,9 +202,10 @@ int main( int   argc,
     lblShell = gtk_label_new(">>");
     lblShellText = gtk_label_new("HOLA");
     lblAppliText = gtk_label_new("HOLA X2");
-    txtBar = gtk_text_view_new();
+    txtBar = gtk_source_view_new();
     fixed = gtk_fixed_new();
     table = gtk_grid_new();
+    gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(txtBar), true);
     btnRun = gtk_toggle_button_new_with_label("RUN");
     btnObtText = gtk_button_new_with_label("Obtener");
 
