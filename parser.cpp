@@ -6,30 +6,112 @@
 #include <fstream>
 #include <iostream>
 #include "ListaSimple.h"
+#include "checker.h"
 using namespace std;
+
 string file = "/Users/edgarchaves/Desktop/C!.txt";
+
+
 
 
 void parser::readfile(string expresion) {
 
 
-    cout<<expresion<<endl;
+    cout << expresion << endl;
 
-    string palabra, tipo, etiqueta, valor;
+    string bloque, tipo, etiqueta, valor;
     int NumeroPalabra = 1;
     int referencias;
 
-    char lista [3];
+    bool corcheteAbierto = FALSE;
+    bool corcheteCerrado = TRUE;
 
-    char ListaGrande [50];
+    int corchetesPequeños = 0;
 
-    for(int posicion = 0; posicion <= sizeof(expresion); posicion ++){
+    int corchetesGrandes = 0;
+
+    int bloqueTexto = 1;
+
+
+    char lista[3];
+    char ListaGrande[50];
+
+
+    for (int posicion = 0; posicion <= sizeof(expresion); posicion++) {
+
+
+        /*
+         * Parte del parser que lee específicamente al inicio de la caja de texto.
+         */
+
+
+        //if (corcheteAbierto == FALSE and corcheteCerrado == TRUE) {
+          //  corcheteCerrado = FALSE;
+
+            if (expresion[posicion] == '{' and corcheteAbierto == FALSE and corcheteCerrado == TRUE and
+                corchetesGrandes == 0 and corchetesPequeños == 0) {
+
+                bloque += expresion[posicion];
+                corcheteAbierto = TRUE;
+                corchetesGrandes++;
+
+            } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesGrandes == 1
+                       and corchetesPequeños == 0) {
+                bloque += expresion[posicion];
+                corchetesPequeños++;
+
+
+            } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequeños == 1 and
+                       corchetesGrandes < 2 and corcheteCerrado == FALSE) {
+
+                bloque += expresion[posicion];
+                corchetesPequeños++;
+
+            } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesPequeños == 1) {
+                cout << "Sintax error, '}' is missing." << endl;
+                break;
+
+            } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corcheteCerrado == FALSE
+                        and corchetesPequeños == 1) {
+                cout << "Sintax error, '{' is missing." << endl;
+                break;
+
+
+
+            } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesPequeños == 2) {
+                bloque += expresion[posicion];
+                corchetesPequeños = 1;
+
+
+
+            } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequeños == 2
+                       and corcheteCerrado == FALSE) {
+                bloque += expresion[posicion];
+                subReadFile(bloque);
+                corcheteCerrado = TRUE;
+                corcheteAbierto = FALSE;
+
+            }
+            bloque += expresion[posicion];
+        }
+
+
+
+/*
 
         if (expresion[posicion] == ' ' & NumeroPalabra == 1){
 
-            tipo = palabra;
-            palabra = "";
-            NumeroPalabra ++;
+            if (palabra == "Class") {
+                cout << "espere" << endl;
+
+            }else{
+                tipo = palabra;
+                palabra = "";
+                NumeroPalabra ++;
+            }
+
+
+
 
         }else if(NumeroPalabra == 2 & expresion[posicion ] == ' ' ) {
             etiqueta = palabra;
@@ -65,6 +147,8 @@ void parser::readfile(string expresion) {
     cout<<"Tipo: "+ tipo<<endl;
     cout<<"Etiqueta: "+etiqueta<<endl;
     cout<<"Valor: "+valor<<endl;
+
+*/
 
 
 /*
@@ -116,6 +200,12 @@ void parser::readfile(string expresion) {
     }
     infile.close();
 */
+}
+
+void parser::subReadFile(string bloque) {
+    cout<<"------Este es el bloque-------"<<endl;
+    cout <<bloque<<endl;
+
 }
 
 

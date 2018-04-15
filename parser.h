@@ -12,6 +12,7 @@ class parser {
 public:
 
     void readfile(string);
+    void subReadFile(string);
 
 
 
