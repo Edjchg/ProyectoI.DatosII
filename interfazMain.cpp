@@ -35,6 +35,13 @@ GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3;
 gint columna = 0;
 gint fila = 0;
 
+/**
+ * @brief agrega una fila a el ram live view
+ * @param memoria direccion de memoria
+ * @param valor de la variable que guarda
+ * @param etiqueta de la variable
+ * @param conteo de referencias que tiene la variable
+ */
 void agregarFila(const char *memoria, const char *valor, const char *etiqueta, const char *conteo) {
     lbl = gtk_label_new(memoria);
     lbl1 = gtk_label_new(valor);
@@ -46,11 +53,22 @@ void agregarFila(const char *memoria, const char *valor, const char *etiqueta, c
     gtk_grid_attach(GTK_GRID(table), lbl3, columna + 3, fila , 1, 1);
     fila += 1;
 }
-
+/**
+ * @brief borra lo que tenga el application log
+ * @param widget la ventana principal
+ * @param data son los datos de application log
+ */
 void borrarAppliLog(GtkWidget *widget, gpointer data) {
     gtk_label_set_text(GTK_LABEL(data), "");
 
 }
+
+/**
+ * @brief obtiene lo que esta en el text view para parsear
+ * @param widget la ventana principal
+ * @param data los datos del text view
+ * @return retorna el texto parseado
+ */
 
 char *getTextOfTextview(GtkWidget *widget, gpointer data) {
     GtkTextIter start, end;
@@ -66,6 +84,13 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
     return text;
 }
 
+/**
+ * @brief cuando se toca enter se llama al parser para que la ram view se actualice
+ * @param widget ventana principañ
+ * @param pKey envento
+ * @param userdata la informacion de text view
+ * @return si es true, obtiene lo del text view, si no no hace nada
+ */
 gboolean on_key_press (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata){
     if (pKey->type == GDK_KEY_PRESS){
         g_print("%i\n", pKey->keyval);
