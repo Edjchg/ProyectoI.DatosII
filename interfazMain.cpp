@@ -51,34 +51,29 @@ void borrarAppliLog(GtkWidget *widget, gpointer data) {
     gtk_label_set_text(GTK_LABEL(data), "");
 
 }
+
 char *getTextOfTextview(GtkWidget *widget, gpointer data) {
-
     GtkTextIter start, end;
-
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));
     gchar *text;
-
-
-
     gint lineas = gtk_text_buffer_get_line_count (buffer);
     cout<<"------Numero de lineas--------"<<endl;
     cout <<lineas<<endl;
-
-
-
-
-
-
     gtk_text_buffer_get_bounds(buffer, &start, &end);
     text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-
-
-
     parser parser1;
     parser1.readfile(text);
-
-
     return text;
+}
+
+gboolean on_key_press (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata){
+    if (pKey->type == GDK_KEY_PRESS){
+        g_print("%i\n", pKey->keyval);
+        if (pKey->keyval == GDK_KEY_Return) {
+            getTextOfTextview(widget, userdata);
+        }
+    }
+    return FALSE;
 }
 
 void *cliente(){
@@ -217,20 +212,12 @@ int main( int   argc,
     //conectando señales/eventos
     g_signal_connect (G_OBJECT(window), "destroy",
                       G_CALLBACK(gtk_main_quit), NULL);
+    //gtk_widget_set_events (txtBar, GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
     g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(borrarAppliLog), lblAppliText);
     g_signal_connect(G_OBJECT(btnObtText), "clicked", G_CALLBACK(getTextOfTextview), txtBar);
+    g_signal_connect(txtBar, "key_press_event", G_CALLBACK(on_key_press), txtBar);
 
-
-    /*gint curr_row = 0;
-    gint curr_col = 0;
-    for (gint i = 0; i < 40; i++) {
-        lbl = gtk_label_new(" HOLA \n");
-        gtk_grid_attach(GTK_GRID(table), lbl, curr_row % 4, curr_col % 8, 1, 1);
-        if (++curr_row % 4 == 0)
-            curr_col++;
-
-    }*/
     //gtk_grid_set_column_homogeneous(GTK_GRID(table), true);
     //gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
 
@@ -255,13 +242,13 @@ int main( int   argc,
     gtk_fixed_put(GTK_FIXED(fixed), lblShellText, 40, 400);
     gtk_fixed_put(GTK_FIXED(fixed), btnClear, 500, 480);
     gtk_box_pack_start(GTK_BOX(box), table, false, false, 0);
-    gtk_container_add(GTK_CONTAINER(window), box);
+    //gtk_container_add(GTK_CONTAINER(window), box);
     gtk_fixed_put(GTK_FIXED(fixed), scrolledRam, 750, 50);
     gtk_widget_set_size_request(scrolledRam, 300, 300);
 
     //EJEMPLO DE COMO AGREGAR UNA FILA
     //agregarFila(memoria.c_str(), valor.c_str(), etiqueta.c_str(), conteo.c_str());
-
+    gtk_source_view_set_auto_indent (GTK_SOURCE_VIEW(txtBar), true);
     gtk_grid_set_column_homogeneous(GTK_GRID(table), true);
     gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
     gtk_widget_show_all(window);
