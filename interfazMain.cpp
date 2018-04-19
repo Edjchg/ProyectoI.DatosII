@@ -18,7 +18,9 @@
 
 using namespace std;
 
-
+void printLog(string error){
+    cout<<"error"<<endl;
+}
 
 void funcion_hi ( GtkWidget *widget,
           GtkWidget *fixed ) {

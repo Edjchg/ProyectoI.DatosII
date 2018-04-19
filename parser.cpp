@@ -7,14 +7,21 @@
 #include <iostream>
 #include "ListaSimple.h"
 #include "checker.h"
+
+
 using namespace std;
 
 string file = "/Users/edgarchaves/Desktop/C!.txt";
 
 
 
-
+/**
+ * @brief Lee y verifica que los corchetes estén correctos.
+ * @param expresion
+ */
 void parser::readfile(string expresion) {
+
+
 
 
     cout << expresion << endl;
@@ -38,6 +45,8 @@ void parser::readfile(string expresion) {
     char ListaGrande[50];
 
 
+
+
     for (int posicion = 0; posicion <= sizeof(expresion); posicion++) {
 
 
@@ -45,11 +54,7 @@ void parser::readfile(string expresion) {
          * Parte del parser que lee específicamente al inicio de la caja de texto.
          */
 
-
-        //if (corcheteAbierto == FALSE and corcheteCerrado == TRUE) {
-          //  corcheteCerrado = FALSE;
-
-            if (expresion[posicion] == '{' and corcheteAbierto == FALSE and corcheteCerrado == TRUE and
+            if (expresion[posicion] == '{' and corcheteAbierto == FALSE and corcheteCerrado == FALSE and
                 corchetesGrandes == 0) {
 
 
@@ -199,13 +204,88 @@ void parser::readfile(string expresion) {
 */
 }
 
+/**
+ * @brief Lee bloques de texto de la caja de texto.
+ * @param bloque
+ */
+
 void parser::subReadFile(string bloque) {
     cout<<"------Este es el bloque-------"<<endl;
     cout <<bloque<<endl;
 
+    ListaSimple listaLineas;
+
+
+
+    string palabra,tipo,valor,etiqueta;
+
+
+    int NumeroPalabra = 1;
+
+
+
     for(int posicion = 0; posicion <= sizeof(bloque); posicion++){
-        continue;
+
+        if (bloque[posicion] == ' ' & NumeroPalabra == 1){
+
+            if (palabra == "Class") {
+                tipo = palabra;
+
+
+            }else{
+                tipo = palabra;
+                palabra = "";
+                NumeroPalabra ++;
+            }
+
+
+
+
+        }else if(NumeroPalabra == 2 & bloque[posicion ] == ' ' ) {
+            etiqueta = palabra;
+            palabra = "";
+            NumeroPalabra++;
+        }else if(bloque [posicion] == '=') {
+
+            posicion++;
+
+
+        }else if (NumeroPalabra == 3 & bloque[posicion] == ';'){
+            if (bloque[posicion] == '='){
+                posicion++;
+            }
+            valor = atoi(palabra.c_str());
+            palabra = "";
+        }
+
+
+
+        if (bloque[posicion+1] == '\n'){
+            if (tipo == "int" or tipo == "float") {
+
+                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, 4);
+
+            }else if(tipo == "char") {
+
+                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, 1);
+
+            }else if (tipo == "double" or tipo == "long") {
+
+                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, 8);
+            }
+            palabra = "\n";
+            NumeroPalabra = 1;
+            palabra = "";
+            //expresion[posicion]+"\n" ;
+            cout<<"Linea Completada"<<endl;
+
+        }
+
+
+        palabra += bloque[posicion];
     }
+
+}
 
 }
 

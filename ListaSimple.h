@@ -41,6 +41,7 @@ ListaSimple <TIPONODO> ::ListaSimple() : primeroPtr(0), ultimoPtr(0) {}
 
 
 //Destructor
+
 template <typename TIPONODO >
 ListaSimple<TIPONODO>::~ListaSimple() {
 
@@ -60,8 +61,16 @@ ListaSimple<TIPONODO>::~ListaSimple() {
 
     }
 }
-/*
+
+
+/**
  * Método que inserta un NodoSimple al inicio de la ListaSimple.
+ * @tparam TIPONODO
+ * @param tipo
+ * @param etiqueta
+ * @param valor
+ * @param referencia
+ * @param espacio
  */
 template <typename TIPONODO>
 void ListaSimple<TIPONODO>::instertarFrente(const TIPONODO &tipo,const TIPONODO &etiqueta, const TIPONODO &valor,
@@ -78,10 +87,19 @@ void ListaSimple<TIPONODO>::instertarFrente(const TIPONODO &tipo,const TIPONODO 
     }
 }
 
-/*
- * Método que inserta un NodoSimple al final de la ListaSimple.
+/**
+ * @brief Método que inserta un NodoSimple al final de la ListaSimple.
+ * @tparam TIPONODO
+ * @param tipo
+ * @param etiqueta
+ * @param valor
+ * @param referencia
+ * @param espacio
  */
+
+
 template <typename TIPONODO>
+
 void ListaSimple<TIPONODO>::insertarFinal(const TIPONODO &tipo, const TIPONODO &etiqueta, const TIPONODO &valor,
                                           const TIPONODO &referencia, const TIPONODO &espacio ) {
     NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo(tipo,etiqueta, valor,referencia,espacio );
@@ -134,10 +152,12 @@ void ListaSimple<TIPONODO>::insertarPosicion(const TIPONODO & posicion, const TI
 
     }
 }
- */
 
-/*
- * Método que elimina un NodoSimple al inicio de la ListaSimple.
+
+/**
+ * @brief Método que elimina un NodoSimple al inicio de la ListaSimple.
+ * @tparam TIPONODO
+ * @return
  */
 
 template <typename TIPONODO>
@@ -161,7 +181,14 @@ bool ListaSimple<TIPONODO>::eliminarFrente() {
 }
 
 /*
- * Método que elimina un NodoSimple en la posición deseada de la ListaSimple.
+ *
+ */
+
+/**
+ * @brief Método que elimina un NodoSimple en la posición deseada de la ListaSimple.
+ * @tparam TIPONODO
+ * @param valor
+ * @return
  */
 template <typename TIPONODO>
 bool ListaSimple<TIPONODO>::eliminarPosicion(const TIPONODO &valor) {
@@ -193,8 +220,12 @@ bool ListaSimple<TIPONODO>::eliminarPosicion(const TIPONODO &valor) {
         return true;
     }
 }
-/*
- * Método que elimina un NodoSimple al final de la ListaSimple.
+
+
+/**
+ * @brief Método que elimina un NodoSimple al final de la ListaSimple.
+ * @tparam TIPONODO
+ * @return
  */
 
 template <typename TIPONODO>
@@ -226,8 +257,11 @@ bool ListaSimple<TIPONODO>::eliminarFinal() {
     }
 }
 
-/*
- * Método que revisa con boolean si la lista está vacía revisando el estado del primer nodo.
+
+/**
+ * @brief Método que revisa con boolean si la lista está vacía revisando el estado del primer nodo.
+ * @tparam TIPONODO
+ * @return
  */
 template <typename TIPONODO>
 bool ListaSimple<TIPONODO>::estaVacia() const {
@@ -235,14 +269,30 @@ bool ListaSimple<TIPONODO>::estaVacia() const {
 
 }
 
+/**
+ *
+ * @tparam TIPONODO
+ * @param tipo
+ * @param etiqueta
+ * @param valor
+ * @param referencia
+ * @param espacio
+ * @return
+ */
+
 template <typename TIPONODO>
 NodoSimple<TIPONODO> *ListaSimple<TIPONODO>::obtenerNuevoNodo(const TIPONODO &tipo,const TIPONODO &etiqueta,
                                                               const TIPONODO &valor,const TIPONODO &referencia,const TIPONODO &espacio) {
     return new NodoSimple<TIPONODO>(tipo, etiqueta,valor, referencia, espacio);
 
 }
-/*
- * Método que edita un NodoSimple en la posición deseada en la ListaSimple.
+
+
+/**
+ * @brief Método que edita un NodoSimple en la posición deseada en la ListaSimple.
+ * @tparam TIPONODO
+ * @param posicion
+ * @param valor
  */
 template <typename TIPONODO>
 void ListaSimple<TIPONODO>::editarPosicion (const TIPONODO & posicion, const TIPONODO &valor) {
@@ -267,8 +317,10 @@ void ListaSimple<TIPONODO>::editarPosicion (const TIPONODO & posicion, const TIP
 
     }
 }
-/*
- * Método que recorre la ListaSimple para poder imprimir cada nodo.
+
+/**
+ * @brief Método que recorre la ListaSimple para poder imprimir cada nodo.
+ * @tparam TIPONODO
  */
 template <typename TIPONODO>
 void ListaSimple <TIPONODO>::imprimir() const {
