@@ -205,8 +205,9 @@ int main( int   argc,
 
 
     GtkWidget *scrolledRam, * window, *fixed, *btnRun,*lblRam, *btnClear,
-            *lblLog, *txtBar, *lbl, *box, *btnObtText, *lblShell,
-            *lblAppliText, *lblShellText, *scrollWindows;
+            *lblLog, *txtBar, *lbl, *box, *lblShell,
+            *lblAppliText, *lblShellText, *scrollWindows, *scrollAppli, *scrollShell,
+            *boxAppli, *boxShell;
 
     GtkTextIter iter;
 
@@ -223,20 +224,21 @@ int main( int   argc,
     gtk_text_buffer_get_iter_at_line (buffer, &iter,0);
     scrollWindows = gtk_scrolled_window_new(NULL, NULL);
     scrolledRam = gtk_scrolled_window_new(NULL, NULL);
+    scrollAppli = gtk_scrolled_window_new(NULL, NULL);
+    scrollShell = gtk_scrolled_window_new(NULL, NULL);
     gtk_container_set_border_width (GTK_CONTAINER (scrollWindows), 10);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrollWindows),
                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     lblRam = gtk_label_new("RAM Live View");
     lblLog = gtk_label_new("Application Log");
     lblShell = gtk_label_new(">>");
-    lblShellText = gtk_label_new("HOLA");
-    lblAppliText = gtk_label_new("HOLA X2");
+    lblShellText = gtk_label_new("");
+    lblAppliText = gtk_label_new("");
     txtBar = gtk_source_view_new();
     fixed = gtk_fixed_new();
     table = gtk_grid_new();
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(txtBar), true);
     btnRun = gtk_toggle_button_new_with_label("RUN");
-    btnObtText = gtk_button_new_with_label("Obtener");
 
     btnClear = gtk_toggle_button_new_with_label("Clear");
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -247,12 +249,7 @@ int main( int   argc,
     //gtk_widget_set_events (txtBar, GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
     g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(borrarAppliLog), lblAppliText);
-    g_signal_connect(G_OBJECT(btnObtText), "clicked", G_CALLBACK(getTextOfTextview), txtBar);
     g_signal_connect(txtBar, "key_press_event", G_CALLBACK(on_key_press), txtBar);
-
-    //gtk_grid_set_column_homogeneous(GTK_GRID(table), true);
-    //gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
-
 
 
     //colocando coordenadas y tamaño
@@ -262,16 +259,19 @@ int main( int   argc,
     gtk_window_set_default_size(GTK_WINDOW(window), 1000, 600);
     gtk_container_add(GTK_CONTAINER(scrollWindows), txtBar);
     gtk_container_add(GTK_CONTAINER(scrolledRam), box);
+    gtk_container_add(GTK_CONTAINER(scrollShell), lblShellText);
+    gtk_container_add(GTK_CONTAINER(scrollAppli), lblAppliText);
     gtk_container_add(GTK_CONTAINER (window), fixed);
     gtk_fixed_put(GTK_FIXED(fixed), btnRun, 0, 0);
-    gtk_fixed_put(GTK_FIXED(fixed), btnObtText, 50, 0);
     gtk_fixed_put(GTK_FIXED(fixed), scrollWindows, 50, 50);
     gtk_widget_set_size_request(scrollWindows, 650, 350);
+    gtk_widget_set_size_request(scrollShell,650, 50);
+    gtk_widget_set_size_request(scrollAppli, 650, 50);
     gtk_fixed_put(GTK_FIXED(fixed), lblRam, 800, 0);
     gtk_fixed_put(GTK_FIXED(fixed), lblLog, 0, 480);
-    gtk_fixed_put(GTK_FIXED(fixed), lblAppliText, 0, 500);
+    gtk_fixed_put(GTK_FIXED(fixed), scrollAppli, 0, 500);
     gtk_fixed_put(GTK_FIXED(fixed), lblShell, 0, 400);
-    gtk_fixed_put(GTK_FIXED(fixed), lblShellText, 40, 400);
+    gtk_fixed_put(GTK_FIXED(fixed), scrollShell, 40, 400);
     gtk_fixed_put(GTK_FIXED(fixed), btnClear, 500, 480);
     gtk_box_pack_start(GTK_BOX(box), table, false, false, 0);
     //gtk_container_add(GTK_CONTAINER(window), box);
