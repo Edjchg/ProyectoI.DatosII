@@ -14,6 +14,8 @@ public:
     void readfile(string);
     void subReadFile(string);
     bool logError();
+    bool miniParserCA(string);
+    bool miniParserCC(string);
 
 
 

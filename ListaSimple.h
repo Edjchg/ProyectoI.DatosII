@@ -328,6 +328,8 @@ void ListaSimple <TIPONODO>::imprimir() const {
 
     while (tempPtr != nullptr){
         cout << tempPtr->valor << " ";
+        cout << tempPtr->etiqueta << " ";
+        cout << tempPtr->tipo << " ";
         tempPtr = tempPtr->siguientePtr;
 
     }
