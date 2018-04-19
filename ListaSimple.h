@@ -152,7 +152,7 @@ void ListaSimple<TIPONODO>::insertarPosicion(const TIPONODO & posicion, const TI
 
     }
 }
-
+*/
 
 /**
  * @brief Método que elimina un NodoSimple al inicio de la ListaSimple.

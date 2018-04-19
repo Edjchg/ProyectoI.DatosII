@@ -208,7 +208,7 @@ void parser::subReadFile(string bloque) {
     cout<<"------Este es el bloque-------"<<endl;
     cout <<bloque<<endl;
 
-    ListaSimple listaLineas;
+    ListaSimple <string> listaLineas;
 
 
 
@@ -258,15 +258,15 @@ void parser::subReadFile(string bloque) {
         if (bloque[posicion+1] == '\n'){
             if (tipo == "int" or tipo == "float") {
 
-                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, 4);
+                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, "4");
 
             }else if(tipo == "char") {
 
-                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, 1);
+                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, "1");
 
             }else if (tipo == "double" or tipo == "long") {
 
-                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, 8);
+                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, "8");
             }
             palabra = "\n";
             NumeroPalabra = 1;
@@ -284,7 +284,7 @@ void parser::subReadFile(string bloque) {
 
 }
 
-}
+
 
 
 
