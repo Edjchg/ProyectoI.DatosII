@@ -21,17 +21,12 @@ string file = "/Users/edgarchaves/Desktop/C!.txt";
  */
 void parser::readfile(string expresion) {
 
-
-
-
     cout << expresion << endl;
 
-    string bloque, tipo, etiqueta, valor;
-    int NumeroPalabra = 1;
-    int referencias;
+    string bloque;
 
     bool corcheteAbierto = FALSE;
-    bool corcheteCerrado = TRUE;
+    bool corcheteCerrado = FALSE;
 
     bool corchetesPequenosA = FALSE;
     bool corchetesPequenosC = FALSE;
@@ -276,7 +271,9 @@ void parser::subReadFile(string bloque) {
             palabra = "\n";
             NumeroPalabra = 1;
             palabra = "";
-            //expresion[posicion]+"\n" ;
+            cout <<"----------Lista De Lineas Matcho, Joder!---------"<<endl;
+            listaLineas.imprimir();
+
             cout<<"Linea Completada"<<endl;
 
         }
