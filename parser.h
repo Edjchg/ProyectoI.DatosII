@@ -13,6 +13,7 @@ public:
 
     void readfile(string);
     void subReadFile(string);
+    bool logError();
 
 
 

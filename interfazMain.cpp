@@ -81,8 +81,13 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
     cout <<lineas<<endl;
     gtk_text_buffer_get_bounds(buffer, &start, &end);
     text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+
     parser parser1;
     parser1.readfile(text);
+
+    if (parser1.logError() == FALSE){
+
+    }
     return text;
 }
 

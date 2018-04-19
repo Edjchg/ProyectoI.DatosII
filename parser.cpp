@@ -69,11 +69,13 @@ void parser::readfile(string expresion) {
                 corchetesPequenosC = TRUE ;
 
             } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE) {
+                logError();
                 cout << "Sintax error, '}' is missing." << endl;
                 break;
 
             } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corcheteCerrado == FALSE
                         and corchetesPequenosA == FALSE) {
+                logError();
                 cout << "Sintax error, '{' is missing." << endl;
                 break;
 
@@ -282,6 +284,11 @@ void parser::subReadFile(string bloque) {
         palabra += bloque[posicion];
     }
 
+}
+
+bool parser::logError() {
+
+    return FALSE;
 }
 
 
