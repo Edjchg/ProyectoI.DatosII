@@ -26,7 +26,8 @@ void parser::readfile(string expresion) {
     bool corcheteAbierto = FALSE;
     bool corcheteCerrado = TRUE;
 
-    int corchetesPequenos = 0;
+    bool corchetesPequenosA = FALSE;
+    bool corchetesPequenosC = FALSE;
 
     int corchetesGrandes = 0;
 
@@ -49,47 +50,43 @@ void parser::readfile(string expresion) {
           //  corcheteCerrado = FALSE;
 
             if (expresion[posicion] == '{' and corcheteAbierto == FALSE and corcheteCerrado == TRUE and
-                corchetesGrandes == 0 and corchetesPequenos == 0) {
+                corchetesGrandes == 0) {
 
-                bloque += expresion[posicion];
+
                 corcheteAbierto = TRUE;
                 corchetesGrandes++;
 
             } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesGrandes == 1
-                       and corchetesPequenos == 0) {
-                bloque += expresion[posicion];
-                corchetesPequenos++;
+                       and corchetesPequenosA == FALSE) {
+
+                corchetesPequenosA = TRUE;
 
 
-            } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequenos == 1 and
-                       corchetesGrandes < 2 and corcheteCerrado == FALSE) {
+            } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and
+                       corchetesGrandes < 2 and corcheteCerrado == FALSE and corchetesPequenosA == TRUE and corchetesPequenosC == FALSE) {
 
-                bloque += expresion[posicion];
-                corchetesPequenos++;
 
-            } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesPequenos == 1) {
+                corchetesPequenosC = TRUE ;
+
+            } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE) {
                 cout << "Sintax error, '}' is missing." << endl;
                 break;
 
             } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corcheteCerrado == FALSE
-                        and corchetesPequenos == 1) {
+                        and corchetesPequenosA == FALSE) {
                 cout << "Sintax error, '{' is missing." << endl;
                 break;
 
 
 
-            } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesPequenos == 2) {
-                bloque += expresion[posicion];
-                corchetesPequenos = 1;
-
-
-
-            } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequenos == 2
-                       and corcheteCerrado == FALSE) {
+            } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE
+                       and corchetesPequenosC == TRUE) {
                 bloque += expresion[posicion];
                 subReadFile(bloque);
-                corcheteCerrado = TRUE;
-                corcheteAbierto = FALSE;
+                corcheteCerrado    = FALSE;
+                corcheteAbierto    = FALSE;
+                corchetesPequenosA = FALSE;
+                corchetesPequenosC = FALSE;
 
             }
             bloque += expresion[posicion];
@@ -205,6 +202,10 @@ void parser::readfile(string expresion) {
 void parser::subReadFile(string bloque) {
     cout<<"------Este es el bloque-------"<<endl;
     cout <<bloque<<endl;
+
+    for(int posicion = 0; posicion <= sizeof(bloque); posicion++){
+        continue;
+    }
 
 }
 
