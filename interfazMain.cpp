@@ -33,7 +33,7 @@ void funcion_hi ( GtkWidget *widget,
     }
 }
 
-GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3;
+GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3, *lblAppliText, *lblShellText;
 gint columna = 0;
 gint fila = 0;
 
@@ -84,8 +84,9 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
 
     parser parser1;
     parser1.readfile(text);
-
+    parser1.logError();
     if (parser1.logError() == FALSE){
+        gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error                                                                                                                                                                                                                          ");
 
     }
     return text;
@@ -206,7 +207,7 @@ int main( int   argc,
 
     GtkWidget *scrolledRam, * window, *fixed, *btnRun,*lblRam, *btnClear,
             *lblLog, *txtBar, *lbl, *box, *lblShell,
-            *lblAppliText, *lblShellText, *scrollWindows, *scrollAppli, *scrollShell,
+             *scrollWindows, *scrollAppli, *scrollShell,
             *boxAppli, *boxShell;
 
     GtkTextIter iter;
@@ -239,6 +240,7 @@ int main( int   argc,
     table = gtk_grid_new();
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(txtBar), true);
     btnRun = gtk_toggle_button_new_with_label("RUN");
+    btnRun = gtk_button_new_with_label("RUN");
 
     btnClear = gtk_toggle_button_new_with_label("Clear");
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -247,7 +249,7 @@ int main( int   argc,
     g_signal_connect (G_OBJECT(window), "destroy",
                       G_CALLBACK(gtk_main_quit), NULL);
     //gtk_widget_set_events (txtBar, GDK_ENTER_NOTIFY_MASK);
-    g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(funcion_hi), (gpointer) fixed);
+    g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(getTextOfTextview), (gpointer) fixed);
     g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(borrarAppliLog), lblAppliText);
     g_signal_connect(txtBar, "key_press_event", G_CALLBACK(on_key_press), txtBar);
 
