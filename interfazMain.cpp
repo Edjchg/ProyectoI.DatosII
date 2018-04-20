@@ -74,6 +74,7 @@ void borrarAppliLog(GtkWidget *widget, gpointer data) {
  */
 
 char *getTextOfTextview(GtkWidget *widget, gpointer data) {
+    json k;
     GtkTextIter start, end;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));
     gchar *text;
@@ -84,7 +85,8 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
     text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 
     parser parser1;
-    parser1.readfile(text);
+
+    k.push_back(parser1.readfile(text));
 
 
 
@@ -92,7 +94,7 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
     if (parser1.logError() == FALSE){
         gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error");
     }
-    return text;
+    return k;
 }
 char *getTextEnter(GtkWidget *widget, gpointer data) {
     GtkTextIter start, end;
