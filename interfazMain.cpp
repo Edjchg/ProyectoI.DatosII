@@ -12,6 +12,7 @@
 #include <netdb.h>
 #include <thread>
 #include <pthread.h>
+#include "prueba.h"
 
 #include <gtksourceview/gtksource.h>
 
@@ -84,6 +85,9 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
 
     parser parser1;
     parser1.readfile(text);
+
+
+
     parser1.logError();
     if (parser1.logError() == FALSE){
         gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error                                                                                                                                                                                                                          ");
@@ -197,6 +201,10 @@ int main( int   argc,
 
     //cliente();
 
+    prueba prueba2;
+    prueba2.prueba1();
+
+
     thread p(cliente);
     p.detach();
 
@@ -249,7 +257,7 @@ int main( int   argc,
     g_signal_connect (G_OBJECT(window), "destroy",
                       G_CALLBACK(gtk_main_quit), NULL);
     //gtk_widget_set_events (txtBar, GDK_ENTER_NOTIFY_MASK);
-    g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(getTextOfTextview), (gpointer) fixed);
+    g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(getTextOfTextview), txtBar);
     g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(borrarAppliLog), lblAppliText);
     g_signal_connect(txtBar, "key_press_event", G_CALLBACK(on_key_press), txtBar);
 

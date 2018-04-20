@@ -11,7 +11,12 @@
 
 #include "NodoSimple.h"
 
+#include "json.hpp"
+
+using nlohmann::json;
 using namespace std;
+
+
 
 template <typename TIPONODO>
 
@@ -28,6 +33,7 @@ public:
     void imprimir () const;
     void insertarPosicion( const TIPONODO &, const TIPONODO &);
     void editarPosicion(const TIPONODO &, const TIPONODO &);
+    json ToJson();
 
 private:
     NodoSimple <TIPONODO> *primeroPtr;
@@ -327,12 +333,63 @@ void ListaSimple <TIPONODO>::imprimir() const {
     NodoSimple<TIPONODO> *tempPtr = primeroPtr;
 
     while (tempPtr != nullptr){
-        cout << tempPtr->valor << " ";
+        cout << tempPtr->valor << endl;
         tempPtr = tempPtr->siguientePtr;
 
     }
 }
 
+template <typename TIPONODO>
+json ListaSimple <TIPONODO>::ToJson(){
+    string tipo,etiqueta,valor;
 
 
+        struct nodo {
+            std::string tipo;
+            std::string etiqueta;
+            std::string valor ;
+            std::string referencias;
+            std::string espacio;
+        };
+
+
+    NodoSimple<TIPONODO> *temptr = primeroPtr;
+    json tipoJ;
+    json etiquetaJ;
+    json valorJ;
+
+    json lista;
+    json total;
+
+
+
+    while (temptr != nullptr){
+        tipo = temptr->tipo;
+        etiqueta = temptr->etiqueta;
+        valor = temptr->valor;
+
+
+
+        lista["tipo"] = temptr->obtenerTipo();
+        lista["etiqueta"] = temptr->obtenerEtiqueta();
+        lista["valor"] = temptr->obtenerDatos();
+        lista["referencias"] = temptr->obtenerCantidadReferencias();
+
+        //json array_not_object = json::array({lista});
+
+
+
+        total.push_back(lista);
+
+
+
+        temptr = temptr->siguientePtr;
+
+
+    }
+
+
+    //cout<<total<<endl;
+    return total;
+}
 #endif //PROYECTO1_LISTASIMPLE_H

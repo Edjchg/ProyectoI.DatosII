@@ -21,8 +21,8 @@ public:
     TIPONODO obtenerDatos()                               const;
     TIPONODO obtenerTipo()                                const;
     TIPONODO obtenerEspacioMemoria()                      const;
-    TIPONODO obtenerCantidadReferencias(const TIPONODO &) const;
-    TIPONODO obtenerEtiqueta(const TIPONODO &)            const ;
+    TIPONODO obtenerCantidadReferencias()                 const;
+    TIPONODO obtenerEtiqueta()                            const ;
     TIPONODO setDatos(const TIPONODO &);
     TIPONODO setTipo(const TIPONODO &);
     TIPONODO setEspacio(const TIPONODO &);
@@ -54,18 +54,18 @@ template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> ::obtenerDatos() cons
 
 }
 
-template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> :: obtenerTipo()const {
+template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> :: obtenerTipo()                const {
     return tipo;
 }
 
-template <typename TIPONODO> TIPONODO NodoSimple <TIPONODO> ::obtenerEspacioMemoria() const {
+template <typename TIPONODO> TIPONODO NodoSimple <TIPONODO> ::obtenerEspacioMemoria()      const {
     return espacioEnMemoria;
 }
-template <typename TIPONODO> TIPONODO NodoSimple <TIPONODO> ::obtenerCantidadReferencias(const TIPONODO &) const {
+template <typename TIPONODO> TIPONODO NodoSimple <TIPONODO> ::obtenerCantidadReferencias() const {
     return cantidadReferencias;
 }
 
-template <typename TIPONODO> TIPONODO NodoSimple <TIPONODO> ::obtenerEtiqueta(const TIPONODO &) const {
+template <typename TIPONODO> TIPONODO NodoSimple <TIPONODO> ::obtenerEtiqueta() const {
     return etiqueta;
 }
 
