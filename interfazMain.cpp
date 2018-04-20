@@ -34,7 +34,7 @@ void funcion_hi ( GtkWidget *widget,
     }
 }
 
-GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3, *lblAppliText, *lblShellText;
+GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3, *lblAppliText, *lblShellText, *txtBar;
 gint columna = 0;
 gint fila = 0;
 
@@ -90,10 +90,24 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
 
     parser1.logError();
     if (parser1.logError() == FALSE){
-        gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error                                                                                                                                                                                                                          ");
-
+        gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error");
     }
     return text;
+}
+char *getTextEnter(GtkWidget *widget, gpointer data) {
+    GtkTextIter start, end;
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));
+    gchar *text;
+    gint lineas = gtk_text_buffer_get_line_count(buffer);
+    cout << "------Numero de lineas--------" << endl;
+    cout << lineas << endl;
+    gtk_text_buffer_get_bounds(buffer, &start, &end);
+    text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+    parser parser1;
+    if (parser1.miniParserCA(text) == TRUE){
+        gtk_source_view_indent_lines (GTK_SOURCE_VIEW(txtBar), &end, &end);
+    }
+
 }
 
 /**
@@ -107,7 +121,7 @@ gboolean on_key_press (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata){
     if (pKey->type == GDK_KEY_PRESS){
         g_print("%i\n", pKey->keyval);
         if (pKey->keyval == GDK_KEY_Return) {
-            getTextOfTextview(widget, userdata);
+            getTextEnter(widget, userdata);
         }
     }
     return FALSE;
@@ -214,7 +228,7 @@ int main( int   argc,
 
 
     GtkWidget *scrolledRam, * window, *fixed, *btnRun,*lblRam, *btnClear,
-            *lblLog, *txtBar, *lbl, *box, *lblShell,
+            *lblLog, *lbl, *box, *lblShell,
              *scrollWindows, *scrollAppli, *scrollShell,
             *boxAppli, *boxShell;
 
@@ -259,7 +273,7 @@ int main( int   argc,
     //gtk_widget_set_events (txtBar, GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(getTextOfTextview), txtBar);
     g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(borrarAppliLog), lblAppliText);
-    g_signal_connect(txtBar, "key_press_event", G_CALLBACK(on_key_press), txtBar);
+   //g_signal_connect(txtBar, "key_press_event", G_CALLBACK(on_key_press), txtBar);
 
 
     //colocando coordenadas y tamaño

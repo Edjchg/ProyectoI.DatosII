@@ -13,7 +13,7 @@ using namespace std;
 
 string file = "/Users/edgarchaves/Desktop/C!.txt";
 
-
+ListaSimple <string> listaLineas;
 
 /**
  * @brief Lee y verifica que los corchetes estén correctos.
@@ -34,7 +34,7 @@ void parser::readfile(string expresion) {
     int corchetesGrandes = 0;
 
     int bloqueTexto = 1;
-
+    int contador = 1;
 
     char lista[3];
     char ListaGrande[50];
@@ -42,12 +42,13 @@ void parser::readfile(string expresion) {
 
 
 
-    for (int posicion = 0; posicion <= sizeof(expresion); posicion++) {
+    for (int posicion = 0; posicion <= expresion.length(); posicion++) {
 
 
         /*
          * Parte del parser que lee específicamente al inicio de la caja de texto.
          */
+
 
             if (expresion[posicion] == '{' and corcheteAbierto == FALSE and corcheteCerrado == FALSE and
                 corchetesGrandes == 0) {
@@ -83,7 +84,7 @@ void parser::readfile(string expresion) {
 
             } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE
                        and corchetesPequenosC == TRUE) {
-                bloque += expresion[posicion];
+                //bloque += expresion[posicion];
                 subReadFile(bloque);
                 corcheteCerrado    = FALSE;
                 corcheteAbierto    = FALSE;
@@ -91,7 +92,16 @@ void parser::readfile(string expresion) {
                 corchetesPequenosC = FALSE;
 
             }
-            bloque += expresion[posicion];
+            if (expresion[posicion] != '{' & expresion[posicion] != '}' & expresion[posicion] != '\n') {
+                if (expresion[posicion] == ';') {
+                    bloque += expresion[posicion];
+                    subReadFile(bloque);
+                    bloque = "";
+                } else {
+                    bloque += expresion[posicion];
+                }
+            }
+           // bloque += expresion[posicion];
         }
 
 
@@ -210,20 +220,19 @@ void parser::subReadFile(string bloque) {
     cout<<"------Este es el bloque-------"<<endl;
     cout <<bloque<<endl;
 
-    ListaSimple <string> listaLineas;
 
 
 
     string palabra,tipo,valor,etiqueta;
 
-
+    int contador = 1;
     int NumeroPalabra = 1;
 
 
 
     for(int posicion = 0; posicion <= sizeof(bloque); posicion++){
 
-        if (bloque[posicion] == ' ' & NumeroPalabra == 1){
+        if (bloque[posicion] == ' ' && NumeroPalabra == 1){
 
             if (palabra == "Class") {
                 tipo = palabra;
@@ -238,7 +247,7 @@ void parser::subReadFile(string bloque) {
 
 
 
-        }else if(NumeroPalabra == 2 & bloque[posicion ] == ' ' ) {
+        }else if(NumeroPalabra == 2 && bloque[posicion ] == ' ' ) {
             etiqueta = palabra;
             palabra = "";
             NumeroPalabra++;
@@ -247,29 +256,32 @@ void parser::subReadFile(string bloque) {
             posicion++;
 
 
-        }else if (NumeroPalabra == 3 & bloque[posicion] == ';'){
+        }else if (NumeroPalabra == 3 && bloque[posicion] == ';'){
             if (bloque[posicion] == '='){
                 posicion++;
             }
-            valor = atoi(palabra.c_str());
+            valor = palabra;
             palabra = "";
         }
 
 
 
-        if (bloque[posicion+1] == '\n'){
+        if (bloque[posicion] == ';'){
             if (tipo == "int" or tipo == "float") {
-
-                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, "4");
+                contador += 1;
+                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "4");
 
             }else if(tipo == "char") {
 
-                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, "1");
+                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "1");
 
             }else if (tipo == "double" or tipo == "long") {
 
-                listaLineas.insertarFinal(tipo, etiqueta, valor, NULL, "8");
+                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "8");
             }
+            cout << "tipo: " + tipo <<endl;
+            cout << "etiqueta: " + etiqueta << endl;
+            cout << "valor: " + valor << endl;
             palabra = "\n";
             NumeroPalabra = 1;
             palabra = "";
@@ -280,8 +292,12 @@ void parser::subReadFile(string bloque) {
 
         }
 
+        if (bloque[posicion] == '{' or bloque[posicion] == ';' or bloque[posicion] == '\n') {
+            palabra = palabra;
+        } else {
+            palabra += bloque[posicion];
+        }
 
-        palabra += bloque[posicion];
     }
 
 }
@@ -296,3 +312,40 @@ bool parser::logError() {
 
 
 
+
+
+bool parser::miniParserCA(string expresion) {
+
+    cout << expresion << endl;
+
+    string bloque;
+
+    bool corcheteAbierto = FALSE;
+    bool corcheteCerrado = FALSE;
+
+
+    for (int posicion = 0; posicion <= sizeof(expresion); posicion++) {
+        if (expresion[posicion] == '{') {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+bool parser::miniParserCC(string expresion) {
+
+    cout << expresion << endl;
+
+    string bloque;
+
+    bool corcheteAbierto = FALSE;;
+
+
+    for (int posicion = 0; posicion <= sizeof(expresion); posicion++) {
+        if (expresion[posicion] == '{') {
+            corcheteAbierto = TRUE;
+            return corcheteAbierto;
+        }
+    }
+    return FALSE;
+}
