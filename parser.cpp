@@ -87,7 +87,7 @@ json parser::readfile(string expresion) {
             } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE
                        and corchetesPequenosC == TRUE) {
                 //bloque += expresion[posicion];
-                total.push_back(subReadFile(bloque));
+                //total.push_back(subReadFile(bloque));
                 corcheteCerrado    = FALSE;
                 corcheteAbierto    = FALSE;
                 corchetesPequenosA = FALSE;
@@ -97,7 +97,8 @@ json parser::readfile(string expresion) {
             if (expresion[posicion] != '{' & expresion[posicion] != '}' & expresion[posicion] != '\n') {
                 if (expresion[posicion] == ';') {
                     bloque += expresion[posicion];
-                    total.push_back(subReadFile(bloque));
+                    //total.push_back(subReadFile(expresion));
+                    //subReadFile(bloque);
                     bloque = "";
                 } else {
                     bloque += expresion[posicion];
@@ -105,8 +106,8 @@ json parser::readfile(string expresion) {
             }
            // bloque += expresion[posicion];
         }
-
-    return total;
+        total.push_back(subReadFile(expresion));
+        return total;
 
 /*
 
@@ -232,7 +233,7 @@ json parser::subReadFile(string bloque) {
 
 
 
-    for(int posicion = 0; posicion <= sizeof(bloque); posicion++){
+    for(int posicion = 0; posicion <= bloque.length(); posicion++){
 
         if (bloque[posicion] == ' ' && NumeroPalabra == 1){
 

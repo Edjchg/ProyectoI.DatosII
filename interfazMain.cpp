@@ -13,16 +13,14 @@
 #include <thread>
 #include <pthread.h>
 #include "prueba.h"
-
+#include "Cliente.h"
 #include "json.hpp"
 
 #include <gtksourceview/gtksource.h>
 
 
 using namespace std;
-json enviarServidor(json objeto){
-    return objeto;
-}
+
 
 void printLog(string error){
     cout<<"error"<<endl;
@@ -42,6 +40,8 @@ void funcion_hi ( GtkWidget *widget,
 GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3, *lblAppliText, *lblShellText, *txtBar;
 gint columna = 0;
 gint fila = 0;
+json k;
+bool enviar = false;
 
 /**
  * @brief agrega una fila a el ram live view
@@ -78,8 +78,7 @@ void borrarAppliLog(GtkWidget *widget, gpointer data) {
  * @return retorna el texto parseado
  */
 
-char *getTextOfTextview(GtkWidget *widget, gpointer data) {
-    json k;
+void *getTextOfTextview(GtkWidget *widget, gpointer data) {
     GtkTextIter start, end;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));
     gchar *text;
@@ -93,13 +92,11 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
 
     k.push_back(parser1.readfile(text));
 
-
-    enviarServidor(k);
     parser1.logError();
     if (parser1.logError() == FALSE){
         gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error");
     }
-    return text;
+    enviar = true;
 }
 char *getTextEnter(GtkWidget *widget, gpointer data) {
     GtkTextIter start, end;
@@ -116,6 +113,7 @@ char *getTextEnter(GtkWidget *widget, gpointer data) {
     }
 
 }
+
 
 /**
  * @brief cuando se toca enter se llama al parser para que la ram view se actualice
@@ -138,9 +136,22 @@ void *cliente(){
     /*
      * Cliente del servidor.
      */
+    cout << "Iniciando Cliente" << std::endl;
+    Cliente servi = Cliente();
+    servi.iniciarConexion("192.168.100.20", "8080");
+    servi.escribirServidor("Hola soy un nuevo cliente");
+    while(true){
+        if (enviar) {
+            cout<< servi.leerServidor()<<endl;
+            servi.escribirServidor(k.dump());
+            break;
+        }
 
+    }
 
-    int client, server;
+    return 0;
+
+    /*int client, server;
     int portNum = 1500;
     bool isExit = false;
     int bufsize = 1024;
@@ -159,14 +170,14 @@ void *cliente(){
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(portNum);
 
-
+    */
 
     /*
      * Conectando al socket del servidor
      *
      */
 
-
+    /*
 
     //if(connect(client, ((struct sockaddr*)&serverAddr), sizeof(serverAddr)) == 0){
         cout << "Conectando con el servidor..."<< endl;
@@ -207,7 +218,7 @@ void *cliente(){
 
     cout<< "Conexión terminada"<< endl;
     close(client);
-
+    */
 
 
     /*
@@ -316,8 +327,6 @@ int main( int   argc,
     gtk_grid_set_row_homogeneous(GTK_GRID(table), true);
     gtk_widget_show_all(window);
     gtk_main ();
-
-
     return 0;
 
 }
