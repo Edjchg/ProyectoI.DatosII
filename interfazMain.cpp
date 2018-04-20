@@ -14,10 +14,15 @@
 #include <pthread.h>
 #include "prueba.h"
 
+#include "json.hpp"
+
 #include <gtksourceview/gtksource.h>
 
 
 using namespace std;
+json enviarServidor(json objeto){
+    return objeto;
+}
 
 void printLog(string error){
     cout<<"error"<<endl;
@@ -89,12 +94,12 @@ char *getTextOfTextview(GtkWidget *widget, gpointer data) {
     k.push_back(parser1.readfile(text));
 
 
-
+    enviarServidor(k);
     parser1.logError();
     if (parser1.logError() == FALSE){
         gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error");
     }
-    return k;
+    return text;
 }
 char *getTextEnter(GtkWidget *widget, gpointer data) {
     GtkTextIter start, end;

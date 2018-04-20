@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include <string>
+#include "json.hpp"
 using namespace std;
 class parser {
 public:
