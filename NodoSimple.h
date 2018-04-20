@@ -17,7 +17,7 @@ class NodoSimple {
 
 public:
 
-    NodoSimple (const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &);
+    NodoSimple (const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &, const TIPONODO &);
     TIPONODO obtenerDatos()                               const;
     TIPONODO obtenerTipo()                                const;
     TIPONODO obtenerEspacioMemoria()                      const;
@@ -46,8 +46,8 @@ public:
 };
 template <typename TIPONODO>
 
-NodoSimple<TIPONODO>::NodoSimple(const TIPONODO &tipo,const TIPONODO &etiqueta,const TIPONODO &valor,const TIPONODO &referencia,const TIPONODO &espacio):
-        tipo(tipo), etiqueta(etiqueta),valor(valor),cantidadReferencias(referencia), espacioEnMemoria(espacio),  siguientePtr(0)
+NodoSimple<TIPONODO>::NodoSimple(const TIPONODO &tipo,const TIPONODO &etiqueta,const TIPONODO &valor,const TIPONODO &referencia,const TIPONODO &espacio, const TIPONODO & memoria):
+        tipo(tipo), etiqueta(etiqueta),valor(valor),cantidadReferencias(referencia), espacioEnMemoria(espacio),numeroEnMemoria(memoria),  siguientePtr(0)
 {
 
 }
