@@ -226,7 +226,7 @@ json parser::subReadFile(string bloque) {
 
 
 
-    string palabra,tipo,valor,etiqueta;
+    string palabra,tipo,valor,etiqueta, printf;
 
     int contador = 1;
     int NumeroPalabra = 1;
@@ -241,7 +241,19 @@ json parser::subReadFile(string bloque) {
                 tipo = palabra;
 
 
-            }else{
+            }else if (palabra == "print" or palabra == "printfl") {
+                for (int posicion2 = posicion; posicion2 <= bloque.length(); posicion2++){
+                    if (bloque[posicion2] == '(' or bloque[posicion2] == ')') {
+                        if (bloque[posicion2 + 1] == ';'){
+                            printf.erase(printf.length() - 1);
+                            break;
+                        }
+                        bloque[posicion2++];
+                    } else {
+                        printf += bloque[posicion2];
+                    }
+                }
+            } else {
                 tipo = palabra;
                 palabra = "";
                 NumeroPalabra ++;
