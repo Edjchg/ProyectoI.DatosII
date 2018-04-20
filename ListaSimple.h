@@ -356,6 +356,7 @@ json ListaSimple <TIPONODO>::ToJson(){
         };
 
 
+
     NodoSimple<TIPONODO> *temptr = primeroPtr;
     json tipoJ;
     json etiquetaJ;
@@ -377,6 +378,7 @@ json ListaSimple <TIPONODO>::ToJson(){
         lista["etiqueta"] = temptr->obtenerEtiqueta();
         lista["valor"] = temptr->obtenerDatos();
         lista["referencias"] = temptr->obtenerCantidadReferencias();
+        lista["espacio"]
 
         //json array_not_object = json::array({lista});
 

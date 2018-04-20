@@ -22,12 +22,14 @@ public:
     TIPONODO obtenerTipo()                                const;
     TIPONODO obtenerEspacioMemoria()                      const;
     TIPONODO obtenerCantidadReferencias()                 const;
-    TIPONODO obtenerEtiqueta()                            const ;
+    TIPONODO obtenerEtiqueta()                            const;
+    TIPONODO obtenerNumeroEnMemoria()                     const;
     TIPONODO setDatos(const TIPONODO &);
     TIPONODO setTipo(const TIPONODO &);
     TIPONODO setEspacio(const TIPONODO &);
     TIPONODO setCantidadReferencias(const TIPONODO &);
     TIPONODO setEtiqueta(const TIPONODO &);
+    TIPONODO setNumeroEnMemoria(const TIPONODO &);
 
 
 
@@ -36,6 +38,7 @@ public:
     TIPONODO valor;
     TIPONODO cantidadReferencias;
     TIPONODO espacioEnMemoria;
+    TIPONODO numeroEnMemoria;
 
 
 
@@ -69,6 +72,10 @@ template <typename TIPONODO> TIPONODO NodoSimple <TIPONODO> ::obtenerEtiqueta() 
     return etiqueta;
 }
 
+template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> :: obtenerNumeroEnMemoria() const {
+    return numeroEnMemoria;
+}
+
 
 template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> ::setDatos(const TIPONODO & valor1) {
     valor = valor1;
@@ -86,6 +93,10 @@ template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> ::setCantidadReferenc
 }
 template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> ::setEtiqueta(const TIPONODO & etiqueta1) {
     etiqueta = etiqueta1;
+}
+
+template <typename TIPONODO> TIPONODO NodoSimple<TIPONODO> :: setNumeroEnMemoria(const TIPONODO & numeroEnMemoria1){
+    numeroEnMemoria = numeroEnMemoria1;
 }
 
 #endif //PROYECTO1_NODOSIMPLE_H
