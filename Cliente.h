@@ -1,6 +1,4 @@
-//
-// Created by Esteban Agüero Pérez  on 4/19/18.
-//
+
 
 #ifndef CLIENTESERVIDORSOCKETS_CLIENTE_H
 #define CLIENTESERVIDORSOCKETS_CLIENTE_H
