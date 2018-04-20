@@ -7,7 +7,7 @@
 #include <iostream>
 #include "ListaSimple.h"
 #include "checker.h"
-
+#include "json.hpp"
 
 using namespace std;
 
@@ -19,8 +19,10 @@ ListaSimple <string> listaLineas;
  * @brief Lee y verifica que los corchetes estén correctos.
  * @param expresion
  */
-void parser::readfile(string expresion) {
+json parser::readfile(string expresion) {
 
+
+    json total;
     cout << expresion << endl;
 
     string bloque;
@@ -85,7 +87,7 @@ void parser::readfile(string expresion) {
             } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE
                        and corchetesPequenosC == TRUE) {
                 //bloque += expresion[posicion];
-                subReadFile(bloque);
+                total.push_back(subReadFile(bloque));
                 corcheteCerrado    = FALSE;
                 corcheteAbierto    = FALSE;
                 corchetesPequenosA = FALSE;
@@ -95,7 +97,7 @@ void parser::readfile(string expresion) {
             if (expresion[posicion] != '{' & expresion[posicion] != '}' & expresion[posicion] != '\n') {
                 if (expresion[posicion] == ';') {
                     bloque += expresion[posicion];
-                    subReadFile(bloque);
+                    total.push_back(subReadFile(bloque));
                     bloque = "";
                 } else {
                     bloque += expresion[posicion];
@@ -104,7 +106,7 @@ void parser::readfile(string expresion) {
            // bloque += expresion[posicion];
         }
 
-
+    return total;
 
 /*
 
@@ -216,7 +218,7 @@ void parser::readfile(string expresion) {
  * @param bloque
  */
 
-void parser::subReadFile(string bloque) {
+json parser::subReadFile(string bloque) {
     cout<<"------Este es el bloque-------"<<endl;
     cout <<bloque<<endl;
 
@@ -292,6 +294,8 @@ void parser::subReadFile(string bloque) {
 
         }
 
+
+
         if (bloque[posicion] == '{' or bloque[posicion] == ';' or bloque[posicion] == '\n') {
             palabra = palabra;
         } else {
@@ -299,6 +303,7 @@ void parser::subReadFile(string bloque) {
         }
 
     }
+    return listaLineas.ToJson();
 
 }
 

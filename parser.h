@@ -11,8 +11,8 @@ using namespace std;
 class parser {
 public:
 
-    void readfile(string);
-    void subReadFile(string);
+    nlohmann::basic_json<> readfile(string);
+    nlohmann::basic_json<> subReadFile(string);
     bool logError();
     bool miniParserCA(string);
     bool miniParserCC(string);
