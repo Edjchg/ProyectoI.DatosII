@@ -41,6 +41,7 @@ GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3, *lblAppliText, *lblShellText, *txtB
 gint columna = 0;
 gint fila = 0;
 json k;
+string prints;
 bool enviar = false;
 
 /**
@@ -71,6 +72,17 @@ void borrarAppliLog(GtkWidget *widget, gpointer data) {
 
 }
 
+
+string toString(list<string> lista){
+    list<string>::iterator it = lista.begin();
+    while ( it != lista.end() ) {
+        prints += *it++;
+        prints += "\n";
+    }
+    return prints;
+
+}
+
 /**
  * @brief obtiene lo que esta en el text view para parsear
  * @param widget la ventana principal
@@ -91,13 +103,17 @@ void *getTextOfTextview(GtkWidget *widget, gpointer data) {
     parser parser1;
 
     k.push_back(parser1.readfile(text));
-
+    if (parser1.imprimir()) {
+        string aImprimir = toString(parser1.imprimirLista());
+        gtk_label_set_text(GTK_LABEL(lblShellText), aImprimir.c_str());
+    }
     parser1.logError();
     if (parser1.logError() == FALSE){
         gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error");
     }
     enviar = true;
 }
+
 char *getTextEnter(GtkWidget *widget, gpointer data) {
     GtkTextIter start, end;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));

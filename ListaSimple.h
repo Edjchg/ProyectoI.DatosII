@@ -10,6 +10,7 @@
 
 
 #include "NodoSimple.h"
+#include <list>
 
 #include "json.hpp"
 
@@ -34,6 +35,7 @@ public:
     void insertarPosicion( const TIPONODO &, const TIPONODO &);
     void editarPosicion(const TIPONODO &, const TIPONODO &);
     json ToJson();
+    list<string> comparar(list<string> list);
 
 private:
     NodoSimple <TIPONODO> *primeroPtr;
@@ -341,6 +343,33 @@ void ListaSimple <TIPONODO>::imprimir() const {
 
     }
 }
+template <typename TIPONODO>
+list<string> ListaSimple <TIPONODO>::comparar (list<string> lista) {
+    if (estaVacia()){
+        return lista;
+    }else{
+        NodoSimple <TIPONODO> *tempPtr = primeroPtr;
+      while (tempPtr != nullptr){
+          list<string>::iterator it = lista.begin();
+          while ( it != lista.end() ) {
+              if (*it != tempPtr->etiqueta) {
+                  it++;
+              } else {
+                  list<string>::iterator ite = it;
+                  lista.insert(it, tempPtr->valor);
+                  it++;
+                  lista.erase(ite);
+              }
+          }
+
+          tempPtr = tempPtr->siguientePtr;
+
+
+
+      }
+    }
+    return lista;
+}
 
 template <typename TIPONODO>
 json ListaSimple <TIPONODO>::ToJson(){
@@ -398,4 +427,6 @@ json ListaSimple <TIPONODO>::ToJson(){
     //cout<<total<<endl;
     return total;
 }
+
+
 #endif //PROYECTO1_LISTASIMPLE_H

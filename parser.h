@@ -8,6 +8,7 @@
 #include <string.h>
 #include <string>
 #include "json.hpp"
+#include <list>
 using namespace std;
 class parser {
 public:
@@ -17,6 +18,10 @@ public:
     bool logError();
     bool miniParserCA(string);
     bool miniParserCC(string);
+    bool imprimir();
+    list<string> imprimirLista();
+    string contarReferencias(string referencia, string bloque);
+
 
 
 

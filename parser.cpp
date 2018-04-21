@@ -15,8 +15,31 @@ using namespace std;
 string file = "/Users/edgarchaves/Desktop/C!.txt";
 
 ListaSimple <string> listaLineas;
-ListaSimple <string> listaLineasCopia;
+
+
+list<string> listaLineasCopia;
 list<string> list1;
+bool imprimire = false;
+
+string parser::contarReferencias(string referencia, string bloque) {
+    string palabra;
+    int cont = 0;
+    string resultado;
+    for (int posicion = 0; posicion <= bloque.length(); posicion++) {
+        if (bloque[posicion] == '{' or bloque[posicion] == ';' or bloque[posicion] == '\n' or bloque[posicion] == ' ') {
+            palabra = palabra;
+            if(palabra == referencia){
+                cont += 1;
+            } else {
+                palabra = "";
+            }
+        } else {
+            palabra += bloque[posicion];
+        }
+    }
+    return to_string(cont);
+}
+
 
 /**
  * @brief Lee y verifica que los corchetes estén correctos.
@@ -300,19 +323,18 @@ json parser::subReadFile(string bloque) {
 
         if (bloque[posicion] == ';'){
             if (tipo == "int" or tipo == "float") {
-                contador += 1;
-                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "4");
-                listaLineasCopia.insertarFinal(tipo, etiqueta, valor, "", "4");
+                string referencias = contarReferencias(valor, bloque);
+                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "4", "");
+                tipo = "";
 
             }else if(tipo == "char") {
 
-                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "1");
-                listaLineasCopia.insertarFinal(tipo, etiqueta, valor, "", "1");
-
+                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "1", "");
+                tipo = "";
             }else if (tipo == "double" or tipo == "long") {
 
-                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "8");
-                listaLineasCopia.insertarFinal(tipo, etiqueta, valor, "", "8");
+                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "8", "");
+                tipo = "";
             }
             cout << "tipo: " + tipo <<endl;
             cout << "etiqueta: " + etiqueta << endl;
@@ -329,14 +351,17 @@ json parser::subReadFile(string bloque) {
 
 
 
-        if (bloque[posicion] == '{' or bloque[posicion] == ';' or bloque[posicion] == '\n') {
+        if (bloque[posicion] == '{' or bloque[posicion] == ';' or bloque[posicion] == '\n' or bloque[posicion] == ' ') {
             palabra = palabra;
         } else {
             palabra += bloque[posicion];
         }
 
     }
+    listaLineasCopia = listaLineas.comparar(list1);
+    imprimire = true;
     return listaLineas.ToJson();
+
 
 }
 
@@ -345,11 +370,19 @@ bool parser::logError() {
     return FALSE;
 }
 
+bool parser::imprimir(){
+    if (imprimire){
+        return true;
+    } else {
+        return false;
+    }
+}
 
-
-
-
-
+list<string> parser::imprimirLista() {
+    if (imprimir()) {
+        return listaLineasCopia;
+    }
+}
 
 
 bool parser::miniParserCA(string expresion) {
@@ -388,6 +421,5 @@ bool parser::miniParserCC(string expresion) {
     return FALSE;
 }
 
-char comprobar(list<string> lista1, ListaSimple<string> lista2) {
 
-}
+
