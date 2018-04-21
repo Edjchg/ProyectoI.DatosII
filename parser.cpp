@@ -9,6 +9,9 @@
 #include "checker.h"
 #include "json.hpp"
 #include <list>
+#include <stdio.h>
+#include <stdlib.h>
+#include "sstream"
 
 using namespace std;
 
@@ -19,8 +22,11 @@ ListaSimple <string> listaLineas;
 
 list<string> listaLineasCopia;
 list<string> list1;
+list<string> lista;
 bool imprimire = false;
 bool logE = true;
+int numero;
+
 
 string parser::contarReferencias(string referencia, string bloque) {
     string palabra;
@@ -48,6 +54,7 @@ string parser::contarReferencias(string referencia, string bloque) {
  * @param expresion
  */
 json parser::readfile(string expresion) {
+    numero++;
 
 
     json total;
@@ -241,12 +248,25 @@ json parser::readfile(string expresion) {
 */
 }
 
+string asignarMemoria() {
+    int ** i= new int*[1000];
+    stringstream valor;
+
+
+    i[numero] = new int (1);
+    valor << &i[numero]<<endl;
+
+    string newString = valor.str();
+    return newString;
+}
+
 /**
  * @brief Lee bloques de texto de la caja de texto.
  * @param bloque
  */
 
 json parser::subReadFile(string bloque) {
+    numero++;
     cout<<"------Este es el bloque-------"<<endl;
     cout <<bloque<<endl;
 
@@ -293,7 +313,9 @@ json parser::subReadFile(string bloque) {
                         }
                     }
                 }
-            } else {
+            } else if (palabra == "Struct") {
+                palabra = "";
+            } else{
                 tipo = palabra;
                 palabra = "";
                 NumeroPalabra ++;
@@ -323,19 +345,22 @@ json parser::subReadFile(string bloque) {
 
 
         if (bloque[posicion] == ';'){
+            numero++;
             if (tipo == "int" or tipo == "float") {
                 string referencias = contarReferencias(etiqueta, bloque);
-                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias , "4", "");
+                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias , "4", asignarMemoria());
                 tipo = "";
 
             }else if(tipo == "char") {
                 string referencias = contarReferencias(etiqueta, bloque);
-                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias, "1", "");
+                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias, "1", asignarMemoria());
                 tipo = "";
             }else if (tipo == "double" or tipo == "long") {
                 string referencias = contarReferencias(etiqueta, bloque);
-                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias, "8", "");
+                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias, "8", asignarMemoria());
                 tipo = "";
+            } else if ( tipo == "Class"){
+                listaLineas.insertarFinal(tipo, etiqueta, "", "" , "", "");
             }
             cout << "tipo: " + tipo <<endl;
             cout << "etiqueta: " + etiqueta << endl;
@@ -360,6 +385,7 @@ json parser::subReadFile(string bloque) {
 
     }
     listaLineasCopia = listaLineas.comparar(list1);
+    lista = listaLineas.agregar();
     imprimire = true;
     return listaLineas.ToJson();
 
@@ -382,6 +408,11 @@ list<string> parser::imprimirLista() {
     if (imprimir()) {
         return listaLineasCopia;
     }
+}
+
+
+list<string> parser::getRam() {
+    return lista;
 }
 
 
@@ -420,6 +451,9 @@ bool parser::miniParserCC(string expresion) {
     }
     return FALSE;
 }
+
+
+
 
 
 

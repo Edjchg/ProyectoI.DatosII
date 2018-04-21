@@ -7,7 +7,8 @@
 
 #include <iostream>
 #include <jmorecfg.h>
-
+#include <vector>
+#include <algorithm>
 
 #include "NodoSimple.h"
 #include <list>
@@ -36,8 +37,9 @@ public:
     void editarPosicion(const TIPONODO &, const TIPONODO &);
     json ToJson();
     list<string> comparar(list<string> list);
+    string asignarMemoria();
+    list<string> agregar();
 
-private:
     NodoSimple <TIPONODO> *primeroPtr;
     NodoSimple <TIPONODO> *ultimoPtr;
     NodoSimple <TIPONODO> *obtenerNuevoNodo(const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &, const TIPONODO &);
@@ -188,6 +190,7 @@ bool ListaSimple<TIPONODO>::eliminarFrente() {
     }
 }
 
+
 /*
  *
  */
@@ -326,15 +329,24 @@ void ListaSimple<TIPONODO>::editarPosicion (const TIPONODO & posicion, const TIP
     }
 }
 
+
 /**
  * @brief Método que recorre la ListaSimple para poder imprimir cada nodo.
  * @tparam TIPONODO
  */
 template <typename TIPONODO>
 void ListaSimple <TIPONODO>::imprimir() const {
+    //char array[100];
+    //char array2[3];
+    int posicion;
     NodoSimple<TIPONODO> *tempPtr = primeroPtr;
 
     while (tempPtr != nullptr){
+        //array2[0] = tempPtr->obtenerTipo();
+        //array2[1] = tempPtr->obtenerEtiqueta();
+        //array2[2] = tempPtr->obtenerDatos();
+        //array2[3] = tempPtr->obtenerEspacioMemoria();
+
         cout << tempPtr->valor << endl;
         cout << tempPtr->valor << " ";
         cout << tempPtr->etiqueta << " ";
@@ -343,6 +355,7 @@ void ListaSimple <TIPONODO>::imprimir() const {
 
     }
 }
+
 template <typename TIPONODO>
 list<string> ListaSimple <TIPONODO>::comparar (list<string> lista) {
     if (estaVacia()){
@@ -370,6 +383,24 @@ list<string> ListaSimple <TIPONODO>::comparar (list<string> lista) {
     }
     return lista;
 }
+
+
+template <typename TIPONODO>
+list<string> ListaSimple <TIPONODO>::agregar(){
+    NodoSimple<string> *temp = primeroPtr;
+    list<string> lista;
+    list<string>::iterator it = lista.begin();
+    while(temp != NULL){
+        lista.push_back(temp->obtenerNumeroEnMemoria());
+        lista.push_back(temp->obtenerDatos());
+        lista.push_back(temp->obtenerEtiqueta());
+        lista.push_back(temp->obtenerCantidadReferencias());
+        temp = temp->siguientePtr;
+    }
+    return lista;
+
+}
+
 
 template <typename TIPONODO>
 json ListaSimple <TIPONODO>::ToJson(){

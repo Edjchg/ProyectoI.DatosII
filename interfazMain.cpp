@@ -15,6 +15,9 @@
 #include "prueba.h"
 #include "Cliente.h"
 #include "json.hpp"
+#include "parserChange.h"
+#include "NodoSimple.h"
+#include <list>
 
 #include <gtksourceview/gtksource.h>
 
@@ -37,12 +40,16 @@ void funcion_hi ( GtkWidget *widget,
     }
 }
 
-GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3, *lblAppliText, *lblShellText, *txtBar;
+GtkWidget *lbl, *table, *lbl1, *lbl2, *lbl3, *lblAppliText, *lblShellText, *txtBar, *window;
 gint columna = 0;
 gint fila = 0;
 json k;
 string prints;
+ListaSimple<string> listaSimplex;
+list<string> listaX;
 bool enviar = false;
+string enviado;
+parser parser1;
 
 /**
  * @brief agrega una fila a el ram live view
@@ -52,6 +59,7 @@ bool enviar = false;
  * @param conteo de referencias que tiene la variable
  */
 void agregarFila(const char *memoria, const char *valor, const char *etiqueta, const char *conteo) {
+    columna = 0;
     lbl = gtk_label_new(memoria);
     lbl1 = gtk_label_new(valor);
     lbl2 = gtk_label_new(etiqueta);
@@ -62,6 +70,8 @@ void agregarFila(const char *memoria, const char *valor, const char *etiqueta, c
     gtk_grid_attach(GTK_GRID(table), lbl3, columna + 3, fila , 1, 1);
     fila += 1;
 }
+
+
 /**
  * @brief borra lo que tenga el application log
  * @param widget la ventana principal
@@ -100,9 +110,10 @@ void *getTextOfTextview(GtkWidget *widget, gpointer data) {
     gtk_text_buffer_get_bounds(buffer, &start, &end);
     text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 
-    parser parser1;
 
     k.push_back(parser1.readfile(text));
+    enviar = true;
+
     if (parser1.imprimir()) {
         string aImprimir = toString(parser1.imprimirLista());
         gtk_label_set_text(GTK_LABEL(lblShellText), aImprimir.c_str());
@@ -113,21 +124,40 @@ void *getTextOfTextview(GtkWidget *widget, gpointer data) {
     } else {
         gtk_label_set_text(GTK_LABEL(lblAppliText), "");
     }
+
 }
 
-char *getTextEnter(GtkWidget *widget, gpointer data) {
-    GtkTextIter start, end;
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(data));
-    gchar *text;
-    gint lineas = gtk_text_buffer_get_line_count(buffer);
-    cout << "------Numero de lineas--------" << endl;
-    cout << lineas << endl;
-    gtk_text_buffer_get_bounds(buffer, &start, &end);
-    text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-    parser parser1;
-    if (parser1.miniParserCA(text) == TRUE){
-        gtk_source_view_indent_lines (GTK_SOURCE_VIEW(txtBar), &end, &end);
+char *getTextRam(GtkWidget *widget, gpointer data) {
+    string valor;
+    string etiqueta;
+    string memoria;
+    string cantidad;
+    listaX = parser1.getRam();
+    list<string>::iterator it = listaX.begin();
+    int cont = 0;
+    while (it != listaX.end()) {
+        if (cont == 0){
+            memoria = *it;
+        } else if (cont == 1) {
+            valor = *it;
+        } else if (cont == 2){
+            etiqueta = *it;
+        } else if( cont == 3) {
+            cantidad = *it;
+            cont = -1;
+            agregarFila(memoria.c_str(), valor.c_str(), etiqueta.c_str(), cantidad.c_str());
+            valor = "";
+            etiqueta = "";
+            memoria = "";
+            cantidad = "";
+
+        }
+        it++;
+        cont++;
+
     }
+    gtk_widget_show_all(window);
+    //listaX = nullptr;
 
 }
 
@@ -143,22 +173,28 @@ gboolean on_key_press (GtkWidget * widget, GdkEventKey* pKey,gpointer userdata){
     if (pKey->type == GDK_KEY_PRESS){
         g_print("%i\n", pKey->keyval);
         if (pKey->keyval == GDK_KEY_Return) {
-            getTextEnter(widget, userdata);
+            //getTextEnter(widget, userdata);
         }
     }
     return FALSE;
 }
 
 void *cliente(){
+    parserChange parser1;
     /*
      * Cliente del servidor.
      */
     cout << "Iniciando Cliente" << std::endl;
     Cliente servi = Cliente();
-    servi.iniciarConexion("192.168.100.20", "8080");
+    servi.iniciarConexion("127.0.0.1", "8080");
     servi.escribirServidor("Hola soy un nuevo cliente");
+    
     while(true){
         if (enviar) {
+            enviado = k.dump();
+            //json json1 = parser1.toJson(servi.leerServidor());
+            //listaSimplex = parser1.convertToObject(json1);
+            cout << k.dump() << endl;
             cout<< servi.leerServidor()<<endl;
             servi.escribirServidor(k.dump());
             break;
@@ -262,10 +298,11 @@ int main( int   argc,
     // GtkWidget es el tipo utilizado para widget
 
 
-    GtkWidget *scrolledRam, * window, *fixed, *btnRun,*lblRam, *btnClear,
+    GtkWidget *scrolledRam, *fixed, *btnRun,*lblRam, *btnClear,
             *lblLog, *lbl, *box, *lblShell,
              *scrollWindows, *scrollAppli, *scrollShell,
-            *boxAppli, *boxShell;
+            *boxAppli, *boxShell, *lblMemoria, *lblValor, *lblEtiqueta, *lblConteo,
+            *btnRam;
 
     GtkTextIter iter;
 
@@ -288,6 +325,10 @@ int main( int   argc,
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (scrollWindows),
                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     lblRam = gtk_label_new("RAM Live View");
+    lblMemoria = gtk_label_new("Memoria");
+    lblValor = gtk_label_new("Valor");
+    lblEtiqueta = gtk_label_new("Etiqueta");
+    lblConteo = gtk_label_new("Conteo Referencias");
     lblLog = gtk_label_new("Application Log");
     lblShell = gtk_label_new(">>");
     lblShellText = gtk_label_new("");
@@ -296,9 +337,9 @@ int main( int   argc,
     fixed = gtk_fixed_new();
     table = gtk_grid_new();
     gtk_source_view_set_show_line_numbers(GTK_SOURCE_VIEW(txtBar), true);
-    btnRun = gtk_toggle_button_new_with_label("RUN");
+    //btnRun = gtk_toggle_button_new_with_label("RUN");
     btnRun = gtk_button_new_with_label("RUN");
-
+    btnRam = gtk_button_new_with_label("RAM");
     btnClear = gtk_toggle_button_new_with_label("Clear");
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -307,7 +348,7 @@ int main( int   argc,
                       G_CALLBACK(gtk_main_quit), NULL);
     //gtk_widget_set_events (txtBar, GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(btnRun), "clicked", G_CALLBACK(getTextOfTextview), txtBar);
-    g_signal_connect(G_OBJECT(btnClear), "clicked", G_CALLBACK(borrarAppliLog), lblAppliText);
+    g_signal_connect(G_OBJECT(btnRam), "clicked", G_CALLBACK(getTextRam), fixed);
    //g_signal_connect(txtBar, "key_press_event", G_CALLBACK(on_key_press), txtBar);
 
 
@@ -322,11 +363,16 @@ int main( int   argc,
     gtk_container_add(GTK_CONTAINER(scrollAppli), lblAppliText);
     gtk_container_add(GTK_CONTAINER (window), fixed);
     gtk_fixed_put(GTK_FIXED(fixed), btnRun, 0, 0);
+    gtk_fixed_put(GTK_FIXED(fixed), btnRam, 50, 0);
     gtk_fixed_put(GTK_FIXED(fixed), scrollWindows, 50, 50);
     gtk_widget_set_size_request(scrollWindows, 650, 350);
     gtk_widget_set_size_request(scrollShell,650, 50);
     gtk_widget_set_size_request(scrollAppli, 650, 50);
-    gtk_fixed_put(GTK_FIXED(fixed), lblRam, 800, 0);
+    gtk_fixed_put(GTK_FIXED(fixed), lblRam, 800, 5);
+    gtk_fixed_put(GTK_FIXED(fixed), lblMemoria, 750, 35);
+    gtk_fixed_put(GTK_FIXED(fixed), lblValor, 830, 35);
+    gtk_fixed_put(GTK_FIXED(fixed), lblEtiqueta, 900, 35);
+    gtk_fixed_put(GTK_FIXED(fixed), lblConteo, 980, 35);
     gtk_fixed_put(GTK_FIXED(fixed), lblLog, 0, 480);
     gtk_fixed_put(GTK_FIXED(fixed), scrollAppli, 0, 500);
     gtk_fixed_put(GTK_FIXED(fixed), lblShell, 0, 400);

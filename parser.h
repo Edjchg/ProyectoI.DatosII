@@ -20,6 +20,7 @@ public:
     bool miniParserCC(string);
     bool imprimir();
     list<string> imprimirLista();
+    list<string> getRam();
     string contarReferencias(string referencia, string bloque);
 
 
