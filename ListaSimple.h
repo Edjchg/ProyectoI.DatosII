@@ -24,8 +24,8 @@ class ListaSimple {
 public:
     ListaSimple();
     ~ListaSimple();
-    void instertarFrente(const TIPONODO &, const TIPONODO &, const TIPONODO &, const TIPONODO & ,const TIPONODO &);
-    void insertarFinal(const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO & );
+    void instertarFrente(const TIPONODO &, const TIPONODO &, const TIPONODO &, const TIPONODO & ,const TIPONODO &, const TIPONODO &);
+    void insertarFinal(const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &, const TIPONODO & );
     bool eliminarFrente();
     bool eliminarFinal();
     bool eliminarPosicion(const TIPONODO &);
@@ -38,7 +38,7 @@ public:
 private:
     NodoSimple <TIPONODO> *primeroPtr;
     NodoSimple <TIPONODO> *ultimoPtr;
-    NodoSimple <TIPONODO> *obtenerNuevoNodo(const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &);
+    NodoSimple <TIPONODO> *obtenerNuevoNodo(const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &,const TIPONODO &, const TIPONODO &);
 
 };
 //Constructor
@@ -80,9 +80,9 @@ ListaSimple<TIPONODO>::~ListaSimple() {
  */
 template <typename TIPONODO>
 void ListaSimple<TIPONODO>::instertarFrente(const TIPONODO &tipo,const TIPONODO &etiqueta, const TIPONODO &valor,
-                                            const TIPONODO &referencia, const TIPONODO &espacio) {
+                                            const TIPONODO &referencia, const TIPONODO &espacio, const TIPONODO &memoria) {
 
-    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo( tipo ,etiqueta, valor, referencia, espacio );
+    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo( tipo ,etiqueta, valor, referencia, espacio, memoria );
     if (estaVacia()){
         primeroPtr = ultimoPtr = nuevoPtr;
 
@@ -107,8 +107,8 @@ void ListaSimple<TIPONODO>::instertarFrente(const TIPONODO &tipo,const TIPONODO 
 template <typename TIPONODO>
 
 void ListaSimple<TIPONODO>::insertarFinal(const TIPONODO &tipo, const TIPONODO &etiqueta, const TIPONODO &valor,
-                                          const TIPONODO &referencia, const TIPONODO &espacio ) {
-    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo(tipo,etiqueta, valor,referencia,espacio );
+                                          const TIPONODO &referencia, const TIPONODO &espacio, const TIPONODO &memoria ) {
+    NodoSimple<TIPONODO> *nuevoPtr = obtenerNuevoNodo(tipo,etiqueta, valor,referencia,espacio, memoria );
     if (estaVacia()){
         primeroPtr = ultimoPtr = nuevoPtr;
 
@@ -288,8 +288,8 @@ bool ListaSimple<TIPONODO>::estaVacia() const {
 
 template <typename TIPONODO>
 NodoSimple<TIPONODO> *ListaSimple<TIPONODO>::obtenerNuevoNodo(const TIPONODO &tipo,const TIPONODO &etiqueta,
-                                                              const TIPONODO &valor,const TIPONODO &referencia,const TIPONODO &espacio) {
-    return new NodoSimple<TIPONODO>(tipo, etiqueta,valor, referencia, espacio);
+                                                              const TIPONODO &valor,const TIPONODO &referencia,const TIPONODO &espacio, const TIPONODO &memoria) {
+    return new NodoSimple<TIPONODO>(tipo, etiqueta,valor, referencia, espacio, memoria);
 
 }
 
