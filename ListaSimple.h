@@ -377,8 +377,9 @@ json ListaSimple <TIPONODO>::ToJson(){
         lista["tipo"] = temptr->obtenerTipo();
         lista["etiqueta"] = temptr->obtenerEtiqueta();
         lista["valor"] = temptr->obtenerDatos();
-        lista["referencias"] = temptr->obtenerCantidadReferencias();
-        lista["espacio"]
+        lista["cantidadReferencias"] = temptr->obtenerCantidadReferencias();
+        lista["espacioEnMemoria"] = temptr->obtenerEspacioMemoria();
+        lista["numeroEnMemoria"] = temptr->obtenerNumeroEnMemoria();
 
         //json array_not_object = json::array({lista});
 
