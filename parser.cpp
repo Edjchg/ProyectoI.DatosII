@@ -8,12 +8,15 @@
 #include "ListaSimple.h"
 #include "checker.h"
 #include "json.hpp"
+#include <list>
 
 using namespace std;
 
 string file = "/Users/edgarchaves/Desktop/C!.txt";
 
 ListaSimple <string> listaLineas;
+ListaSimple <string> listaLineasCopia;
+list<string> list1;
 
 /**
  * @brief Lee y verifica que los corchetes estén correctos.
@@ -226,7 +229,7 @@ json parser::subReadFile(string bloque) {
 
 
 
-    string palabra,tipo,valor,etiqueta, printf;
+    string palabra,tipo,valor,etiqueta;
 
     int contador = 1;
     int NumeroPalabra = 1;
@@ -242,15 +245,28 @@ json parser::subReadFile(string bloque) {
 
 
             }else if (palabra == "print" or palabra == "printfl") {
-                for (int posicion2 = posicion; posicion2 <= bloque.length(); posicion2++){
-                    if (bloque[posicion2] == '(' or bloque[posicion2] == ')') {
-                        if (bloque[posicion2 + 1] == ';'){
-                            printf.erase(printf.length() - 1);
-                            break;
+                contador ++;
+                string prints;
+                if (bloque[posicion + 1] == '(' or bloque[posicion + 1] == ')') {
+                    if (bloque[posicion + 2] == '"') {
+                        for (int posicion2 = posicion + 2; posicion2 <= bloque.length(); posicion2++) {
+                            if (bloque[posicion2 + 1] == ';') {
+                                //prints.erase(prints.length() - 1);
+                                list1.push_back(prints);
+                                break;
+                            } else {
+                                prints += bloque[posicion2];
+                            }
                         }
-                        bloque[posicion2++];
                     } else {
-                        printf += bloque[posicion2];
+                        for (int posicion2 = posicion + 2; posicion2 <= bloque.length(); posicion2++) {
+                            if (bloque[posicion2 + 1] == ';') {
+                                list1.push_back(prints);
+                                break;
+                            } else {
+                                prints += bloque[posicion2];
+                            }
+                        }
                     }
                 }
             } else {
@@ -266,7 +282,8 @@ json parser::subReadFile(string bloque) {
             etiqueta = palabra;
             palabra = "";
             NumeroPalabra++;
-        }else if(bloque [posicion] == '=') {
+        }else if(bloque [posicion] ==
+                 '=') {
 
             posicion++;
 
@@ -285,14 +302,17 @@ json parser::subReadFile(string bloque) {
             if (tipo == "int" or tipo == "float") {
                 contador += 1;
                 listaLineas.insertarFinal(tipo, etiqueta, valor, "", "4");
+                listaLineasCopia.insertarFinal(tipo, etiqueta, valor, "", "4");
 
             }else if(tipo == "char") {
 
                 listaLineas.insertarFinal(tipo, etiqueta, valor, "", "1");
+                listaLineasCopia.insertarFinal(tipo, etiqueta, valor, "", "1");
 
             }else if (tipo == "double" or tipo == "long") {
 
                 listaLineas.insertarFinal(tipo, etiqueta, valor, "", "8");
+                listaLineasCopia.insertarFinal(tipo, etiqueta, valor, "", "8");
             }
             cout << "tipo: " + tipo <<endl;
             cout << "etiqueta: " + etiqueta << endl;
@@ -366,4 +386,8 @@ bool parser::miniParserCC(string expresion) {
         }
     }
     return FALSE;
+}
+
+char comprobar(list<string> lista1, ListaSimple<string> lista2) {
+
 }
