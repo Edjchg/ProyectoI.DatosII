@@ -23,13 +23,14 @@ bool imprimire = false;
 
 string parser::contarReferencias(string referencia, string bloque) {
     string palabra;
-    int cont = 0;
+    int cont = -1;
     string resultado;
     for (int posicion = 0; posicion <= bloque.length(); posicion++) {
         if (bloque[posicion] == '{' or bloque[posicion] == ';' or bloque[posicion] == '\n' or bloque[posicion] == ' ') {
             palabra = palabra;
             if(palabra == referencia){
                 cont += 1;
+                palabra = "";
             } else {
                 palabra = "";
             }
@@ -323,17 +324,17 @@ json parser::subReadFile(string bloque) {
 
         if (bloque[posicion] == ';'){
             if (tipo == "int" or tipo == "float") {
-                string referencias = contarReferencias(valor, bloque);
-                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "4", "");
+                string referencias = contarReferencias(etiqueta, bloque);
+                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias , "4", "");
                 tipo = "";
 
             }else if(tipo == "char") {
-
-                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "1", "");
+                string referencias = contarReferencias(etiqueta, bloque);
+                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias, "1", "");
                 tipo = "";
             }else if (tipo == "double" or tipo == "long") {
-
-                listaLineas.insertarFinal(tipo, etiqueta, valor, "", "8", "");
+                string referencias = contarReferencias(etiqueta, bloque);
+                listaLineas.insertarFinal(tipo, etiqueta, valor, referencias, "8", "");
                 tipo = "";
             }
             cout << "tipo: " + tipo <<endl;
