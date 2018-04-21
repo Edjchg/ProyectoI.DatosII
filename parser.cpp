@@ -20,6 +20,7 @@ ListaSimple <string> listaLineas;
 list<string> listaLineasCopia;
 list<string> list1;
 bool imprimire = false;
+bool logE = true;
 
 string parser::contarReferencias(string referencia, string bloque) {
     string palabra;
@@ -99,13 +100,13 @@ json parser::readfile(string expresion) {
                 corchetesPequenosC = TRUE ;
 
             } else if (expresion[posicion] == '{' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE) {
-                logError();
+                logE = false;
                 cout << "Sintax error, '}' is missing." << endl;
                 break;
 
             } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corcheteCerrado == FALSE
                         and corchetesPequenosA == FALSE) {
-                logError();
+                logE = false;
                 cout << "Sintax error, '{' is missing." << endl;
                 break;
 
@@ -113,8 +114,7 @@ json parser::readfile(string expresion) {
 
             } else if (expresion[posicion] == '}' and corcheteAbierto == TRUE and corchetesPequenosA == TRUE
                        and corchetesPequenosC == TRUE) {
-                //bloque += expresion[posicion];
-                //total.push_back(subReadFile(bloque));
+                logE = true;
                 corcheteCerrado    = FALSE;
                 corcheteAbierto    = FALSE;
                 corchetesPequenosA = FALSE;
@@ -367,8 +367,7 @@ json parser::subReadFile(string bloque) {
 }
 
 bool parser::logError() {
-
-    return FALSE;
+    return logE;
 }
 
 bool parser::imprimir(){

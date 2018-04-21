@@ -109,9 +109,10 @@ void *getTextOfTextview(GtkWidget *widget, gpointer data) {
     }
     parser1.logError();
     if (parser1.logError() == FALSE){
-        gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error");
+        gtk_label_set_text(GTK_LABEL(lblAppliText), "Syntaxis Error                                                                                                                                                                                 ");
+    } else {
+        gtk_label_set_text(GTK_LABEL(lblAppliText), "");
     }
-    enviar = true;
 }
 
 char *getTextEnter(GtkWidget *widget, gpointer data) {
